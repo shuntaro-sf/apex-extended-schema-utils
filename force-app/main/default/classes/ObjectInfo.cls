@@ -6,11 +6,11 @@ public with sharing class ObjectInfo {
     this.sObjectType = sObjectType;
     this.field = new Field(this);
   }
-  public String getObjectFullName() {
+  public String getFullName() {
     String objectFullName = sObjectType.toString();
     return objectFullName;
   }
-  public String getObjectLabel() {
+  public String getLabel() {
     Schema.SObjectType schemaSObjectType = Schema.getGlobalDescribe().get(sObjectType.toString());
     String objectLabel = schemaSObjectType.getDescribe().getLabel();
     return objectLabel;
@@ -34,13 +34,40 @@ public with sharing class ObjectInfo {
       objectInfo = paramObjectInfo;
     }
 
-    public List<String> getFieldFullNames() {
+    public List<String> getFullNames() {
       List<String> fieldFullNames = new List<String>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
       for (String fieldName : fieldMap.keySet()) {
         fieldFullNames.add(fieldMap.get(fieldName).getDescribe().getName());
       }
       return fieldFullNames;
+    }
+
+    /**
+     * @description Gets field labels maped to Schema.SObjectField.
+     * @return Map of field labels for each of Scema.SObjectField objects.
+     * @example
+     */
+    public Map<Schema.SObjectField, String> getLabels() {
+      map<Schema.SObjectField, String> fieldLabels = new Map<Schema.SObjectField, String>();
+      Map<String, Schema.SObjectField> fieldMap = getFieldMap();
+      for (String fieldName : fieldMap.keySet()) {
+        fieldLabels.put(fieldMap.get(fieldName), fieldMap.get(fieldName).getDescribe().getLabel());
+      }
+      return fieldLabels;
+    }
+    /**
+     * @description Gets field data types.
+     * @return Map of field data types for each of Scema.SObjectField objects.
+     * @example
+     */
+    public Map<Schema.SObjectField, String> getDataTypes() {
+      Map<Schema.SObjectField, String> dataTypes = new Map<Schema.SObjectField, String>();
+      Map<String, Schema.SObjectField> fieldMap = getFieldMap();
+      for (String fieldName : fieldMap.keySet()) {
+        dataTypes.put(fieldMap.get(fieldName), String.valueOf(fieldMap.get(fieldName).getDescribe().getType()));
+      }
+      return dataTypes;
     }
 
     private List<Schema.PicklistEntry> getPicklistEntries(Schema.SObjectField sObjectField) {
@@ -64,32 +91,6 @@ public with sharing class ObjectInfo {
         picklistLabels.put(fieldMap.get(fieldName), pickListLabelsForEachField);
       }
       return pickListLabels;
-    }
-    /**
-     * @description Gets field labels maped to Schema.SObjectField.
-     * @return Map of field labels for each of Scema.SObjectField objects.
-     * @example
-     */
-    public Map<Schema.SObjectField, String> getFieldLabels() {
-      map<Schema.SObjectField, String> fieldLabels = new Map<Schema.SObjectField, String>();
-      Map<String, Schema.SObjectField> fieldMap = getFieldMap();
-      for (String fieldName : fieldMap.keySet()) {
-        fieldLabels.put(fieldMap.get(fieldName), fieldMap.get(fieldName).getDescribe().getLabel());
-      }
-      return fieldLabels;
-    }
-    /**
-     * @description Gets field data types.
-     * @return Map of field data types for each of Scema.SObjectField objects.
-     * @example
-     */
-    public Map<Schema.SObjectField, String> getDataTypes() {
-      Map<Schema.SObjectField, String> dataTypes = new Map<Schema.SObjectField, String>();
-      Map<String, Schema.SObjectField> fieldMap = getFieldMap();
-      for (String fieldName : fieldMap.keySet()) {
-        dataTypes.put(fieldMap.get(fieldName), String.valueOf(fieldMap.get(fieldName).getDescribe().getType()));
-      }
-      return dataTypes;
     }
 
     private Map<String, Schema.SObjectField> getFieldMap() {

@@ -11,10 +11,11 @@ public with sharing class SoqlQueryClause {
   public Boolean isForReference;
   public String updateClause;
   public Boolean isForUpdate;
+  public String countClause;
 
   public String childRelationName;
   public SoqlQueryClause childSoqlQueryClause;
 
   public String parentRelationName;
-  public SoqlQueryClause parentSoqlQueryClause;
+  public List<String> parentFieldFullNames;
 }

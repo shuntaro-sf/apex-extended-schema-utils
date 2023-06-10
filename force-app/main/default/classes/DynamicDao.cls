@@ -13,7 +13,7 @@ public inherited sharing class DynamicDao {
   private static final String FOR_REFERENCE_STRING = ' FOR REFERENCE ';
   private static final String UPDATE_STRING = ' UPDATE ';
   private static final String FOR_UPDATE_STRING = ' FOR UPDATE ';
-  private static final String COUNT_STRING = ' COUNT(Id) ';
+  private static final String COUNT_STRING = ' COUNT() ';
 
   /**
    * @description Constructor providing object fullName
@@ -27,59 +27,77 @@ public inherited sharing class DynamicDao {
   }
 
   /**
-   * @description Gets records of sObjectType.toString().
+   * @description Gets the records of sObjectType.
    * @param soqlQueryClause SoqlQueryClause object reference.
-   * @return List of sObjectType.toString() class.
+   * @return List of sObjectType class.
    * @example
    */
   public List<SObject> getSObjectRecords(SoqlQueryClause soqlQueryClause) {
     List<SObject> recordList = new List<SObject>();
-    if (sObjectType.toString() == null) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoNullObjFullName'));
-    }
-    if (soqlQueryClause.fieldFullNames == null || soqlQueryClause.fieldFullNames.size() == 0) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyFieldFullNames'));
-    }
+
+    validatesSoqlClaseForSelfDml(soqlQueryClause);
 
     String queryStr = getSoqlQuery(soqlQueryClause);
     recordList = Database.query(queryStr);
     return recordList;
   }
+
   /**
-   * @description Gets records of sObjectType.toString().
+   * @description Gets the records of sObjectType.
    * @param fieldFullNames List of Field API Names
-   * @return List of sObjectType.toString() class.
+   * @return List of sObjectType class.
    * @example
    */
   public List<SObject> getSObjectRecords(List<String> fieldFullNames) {
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQUeryClause.fieldFullNames = fieldFullNames;
-    return getSObjectRecords(soqlQueryClause.fieldFullNames);
+    return getSObjectRecords(soqlQueryClause);
   }
+
   /**
-   * @description Gets child-records of sObjectType.toString().
+   * @description Gets the parent-records of sObjectType.
    * @param soqlQueryClause SoqlQueryClause object referenece.
-   * @return List of sObjectType.toString()s's child-object class.
+   * @return List of sObjectType's parent-object class.
+   * @example
+   */
+  public List<SObject> getSObjectRecordsOfParent(SoqlQueryClause soqlQueryClause) {
+    List<SObject> recordList = new List<SObject>();
+
+    validatesSoqlClauseForChildDml(soqlQueryClause);
+    for (String fieldFullName : soqlQUeryClause.parentFieldFullNames) {
+      soqlQueryClause.fieldFullNames.add(soqlQueryClause.parentRelationName + '.' + fieldFullName);
+    }
+    String queryStr = getSoqlQuery(soqlQueryClause);
+    recordList = Database.query(queryStr);
+    return recordList;
+  }
+
+  /**
+   * @description Gets the parent-records of sObjectType.
+   * @param parentRelationName Parent relation name.
+   * @param parentFieldFullNames Field fullNames of parent-object.
+   * @return List of sObjectType's parent-object class.
+   * @example
+   */
+  public List<SObject> getSObjectRecordsOfParent(String parentRelationName, List<String> parentFieldFullNames) {
+    SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+    validatesSoqlClauseForChildDml(soqlQueryClause);
+    for (String fieldFullName : parentFieldFullNames) {
+      soqlQueryClause.fieldFullNames.add(parentRelationName + '.' + fieldFullName);
+    }
+    return getSObjectRecords(soqlQueryClause);
+  }
+
+  /**
+   * @description Gets the child-records of sObjectType.
+   * @param soqlQueryClause SoqlQueryClause object referenece.
+   * @return List of sObjectTypes's child-object class.
    * @example
    */
   public List<SObject> getSObjectRecordsInChild(SoqlQueryClause soqlQueryClause) {
     List<SObject> recordList = new List<SObject>();
 
-    if (sObjectType.toString() == null) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoNullObjFullName'));
-    }
-    if (soqlQueryClause.fieldFullNames == null || soqlQueryClause.fieldFullNames.size() == 0) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyFieldFullNames'));
-    }
-    if (soqlQueryClause.childRelationName == null) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoNullChildRelationName'));
-    }
-    if (
-      soqlQueryClause.childSoqlQueryClause.fieldFullNames == null ||
-      soqlQueryClause.childSoqlQueryClause.fieldFullNames.size() == 0
-    ) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyChildFieldFullNames'));
-    }
+    validatesSoqlClauseForChildDml(soqlQueryClause);
 
     String childQueryStr = getSoqlQuery(soqlQueryClause.childSoqlQueryClause);
     soqlQueryClause.fieldFullNames.add(childQueryStr);
@@ -87,11 +105,12 @@ public inherited sharing class DynamicDao {
     recordList = Database.query(queryStr);
     return recordList;
   }
+
   /**
-   * @description Gets child-records of sObjectType.toString().
+   * @description Gets the child-records of sObjectType.
    * @param childRelationName Relation name of child-object. Example: Accounts, CustomObj__r.
    * @param childFieldFullNames Field API Names of child-object.
-   * @return List of sObjectType.toString()s's child-object class.
+   * @return List of sObjectTypes's child-object class.
    * @example
    */
   public List<SObject> getSObjectRecordsInChild(String childRelationName, List<String> childFieldFullNames) {
@@ -103,26 +122,24 @@ public inherited sharing class DynamicDao {
     soqlQueryClause.childSoqlQueryClause = childSoqlClause;
     return getSObjectRecordsInChild(soqlQueryClause);
   }
+
   /**
-   * @description Counts the number of records of sObjectType.toString().
+   * @description Counts the number of records of sObjectType.
    * @param soqlQueryClause SoqlQueryClause object reference.
    * @return List of AggregateResult class.
    * @example
    */
   public List<AggregateResult> countSObjectRecords(SoqlQueryClause soqlQueryClause) {
     List<AggregateResult> numberOfRecords = new List<AggregateResult>();
-
-    if (soqlQueryClause.fieldFullNames != null) {
-    }
-
-    String queryStr = 'SELECT ';
-    queryStr += ', Count(Id) FROM ' + sObjectType.toString();
-    List<String> countFieldFullNames = new List<String>{ COUNT_STRING };
+    String queryStr = SELECT_STRING;
+    soqlQueryClause.fieldFullNames.add(COUNT_STRING.replace('()', '(' + soqlQUeryClause.countClause + ')'));
+    queryStr += String.join(soqlQueryClause.fieldFullNames, ', ') + FROM_STRING + sObjectType.toString();
     numberOfRecords = getSObjectRecords(soqlQUeryClause);
     return numberOfRecords;
   }
+
   /**
-   * @description Counts the number of records of sObjectType.toString().
+   * @description Counts the number of records of sObjectType
    * @param groupClause Group clause for SOQL query.
    * @return List of AggregateResult class.
    * @example
@@ -135,7 +152,7 @@ public inherited sharing class DynamicDao {
 
   private String getSoqlQuery(SoqlQueryClause soqlQueryClause) {
     String queryStr = SELECT_STRING;
-    queryStr += String.join(soqlQueryClause.fieldFullNames, ', ') + ' FROM ' + sObjectType.toString();
+    queryStr += String.join(soqlQueryClause.fieldFullNames, ', ') + FROM_STRING + sObjectType.toString();
     if (soqlQueryClause.whereClause != null) {
       queryStr += WHERE_STRING + soqlQueryClause.whereClause;
     }
@@ -164,6 +181,25 @@ public inherited sharing class DynamicDao {
       queryStr += FOR_UPDATE_STRING;
     }
     return queryStr;
+  }
+
+  private void validatesSoqlClaseForSelfDml(SoqlQueryClause soqlQUeryClause) {
+    if (soqlQueryClause.fieldFullNames == null || soqlQueryClause.fieldFullNames.size() == 0) {
+      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyFieldFullNames'));
+    }
+  }
+
+  private void validatesSoqlClauseForChildDml(SoqlQueryClause soqlQUeryClause) {
+    validatesSoqlClaseForSelfDml(soqlQueryClause);
+    if (soqlQueryClause.childRelationName == null) {
+      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoNullChildRelationName'));
+    }
+    if (
+      soqlQueryClause.childSoqlQueryClause.fieldFullNames == null ||
+      soqlQueryClause.childSoqlQueryClause.fieldFullNames.size() == 0
+    ) {
+      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyChildFieldFullNames'));
+    }
   }
 
   private class DynamicDaoException extends Exception {
