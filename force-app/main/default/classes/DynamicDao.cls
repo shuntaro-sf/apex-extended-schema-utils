@@ -163,23 +163,24 @@ public inherited sharing class DynamicDao {
       queryStr += ORDER_STRING + soqlQueryClause.orderClause;
     }
     if (soqlQueryClause.limitClause != null) {
-      queryStr += LIMIT_STRING + soqlQueryClause.orderClause;
+      queryStr += LIMIT_STRING + soqlQueryClause.limitClause;
     }
     if (soqlQueryClause.offsetClause != null) {
-      queryStr += OFFSET_STRING + soqlQueryClause.orderClause;
+      queryStr += OFFSET_STRING + soqlQueryClause.offsetClause;
     }
-    if (soqlQueryClause.isForView) {
+    if (soqlQueryClause.isForView != null && soqlQueryClause.isForView) {
       queryStr += FOR_VIEW_STRING;
     }
-    if (soqlQueryClause.isForReference) {
+    if (soqlQueryClause.isForReference != null && soqlQueryClause.isForReference) {
       queryStr += FOR_REFERENCE_STRING;
     }
     if (soqlQueryClause.updateClause != null) {
       queryStr += UPDATE_STRING + soqlQueryClause.updateClause;
     }
-    if (soqlQueryClause.isForUpdate) {
+    if (soqlQueryClause.isForUpdate != null && soqlQueryClause.isForUpdate) {
       queryStr += FOR_UPDATE_STRING;
     }
+    System.debug(queryStr);
     return queryStr;
   }
 
