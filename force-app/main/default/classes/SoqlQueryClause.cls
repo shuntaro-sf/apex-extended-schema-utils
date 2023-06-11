@@ -17,5 +17,5 @@ public with sharing class SoqlQueryClause {
   public SoqlQueryClause childSoqlQueryClause;
 
   public String parentRelationName;
-  public List<String> parentFieldFullNames;
+  public SoqlQueryClause parentSoqlQueryClause;
 }

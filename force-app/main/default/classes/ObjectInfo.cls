@@ -2,14 +2,23 @@ public with sharing class ObjectInfo {
   private System.Type sObjectType;
   public Field field;
 
+  /**
+   * @description Constructor providing object type.
+   * @param sObjectType SObject type.
+   */
   public ObjectInfo(System.Type sObjectType) {
+    if (Schema.getGlobalDescribe().get(sObjectType.toString()) == null) {
+      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('ObjectInfoNotFoundSObject'));
+    }
     this.sObjectType = sObjectType;
     this.field = new Field(this);
   }
+
   public String getFullName() {
     String objectFullName = sObjectType.toString();
     return objectFullName;
   }
+
   public String getLabel() {
     Schema.SObjectType schemaSObjectType = Schema.getGlobalDescribe().get(sObjectType.toString());
     String objectLabel = schemaSObjectType.getDescribe().getLabel();

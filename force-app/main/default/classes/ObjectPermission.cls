@@ -1,9 +1,16 @@
 public with sharing class ObjectPermission {
-  private String objFullName;
+  private System.Type sObjectType;
   public Field field;
 
-  public ObjectPermission(String objFullName) {
-    this.objFullName = objFullName;
+  /**
+   * @description Constructor providing object type.
+   * @param sObjectType SObject type.
+   */
+  public ObjectPermission(System.Type sObjectType) {
+    if (Schema.getGlobalDescribe().get(sObjectType.toString()) == null) {
+      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('ObjectPermissionNotFoundSObject'));
+    }
+    this.sObjectType = sObjectType;
     this.field = new Field(this);
   }
 
@@ -59,7 +66,7 @@ public with sharing class ObjectPermission {
      * @example
      */
     public Map<Schema.SObjectField, Boolean> isAccessible() {
-      ObjectPermission objectPermission = new ObjectPermission(objectPermission.objFullName);
+      // ObjectPermission objectPermission = new ObjectPermission(objectPermission.sObjectType.toString());
       Map<String, Schema.SObjectField> fieldMap = objectPermission.getFieldMap();
       Map<Schema.SObjectField, Boolean> permissionsToAccess = new Map<Schema.SObjectField, Boolean>();
       for (String fieldFullName : fieldMap.keySet()) {
@@ -74,7 +81,7 @@ public with sharing class ObjectPermission {
      * @example
      */
     public Map<Schema.SObjectField, Boolean> isCreateable() {
-      ObjectPermission objectPermission = new ObjectPermission(objectPermission.objFullName);
+      // ObjectPermission objectPermission = new ObjectPermission(objectPermission.sObjectType.toString());
       Map<String, Schema.SObjectField> fieldMap = objectPermission.getFieldMap();
       Map<Schema.SObjectField, Boolean> permissionsToCreate = new Map<Schema.SObjectField, Boolean>();
       for (String fieldFullName : fieldMap.keySet()) {
@@ -88,7 +95,7 @@ public with sharing class ObjectPermission {
      * @example
      */
     public Map<Schema.SObjectField, Boolean> isUpdateable() {
-      ObjectPermission objectPermission = new ObjectPermission(objectPermission.objFullName);
+      //  ObjectPermission objectPermission = new ObjectPermission(objectPermission.sObjectType.toString());
       Map<String, Schema.SObjectField> fieldMap = objectPermission.getFieldMap();
       Map<Schema.SObjectField, Boolean> permissionsToUpdate = new Map<Schema.SObjectField, Boolean>();
       for (String fieldFullName : fieldMap.keySet()) {
@@ -102,7 +109,7 @@ public with sharing class ObjectPermission {
      * @example
      */
     public Map<Schema.SObjectField, Boolean> isUpsertable() {
-      ObjectPermission objectPermission = new ObjectPermission(objectPermission.objFullName);
+      // ObjectPermission objectPermission = new ObjectPermission(objectPermission.sObjectType.toString());
       Map<String, Schema.SObjectField> fieldMap = objectPermission.getFieldMap();
       Map<Schema.SObjectField, Boolean> permissionsToUpsert = new Map<Schema.SObjectField, Boolean>();
       for (String fieldFullName : fieldMap.keySet()) {
@@ -117,18 +124,15 @@ public with sharing class ObjectPermission {
   }
 
   private Schema.SObjectType getSObjectType() {
-    Schema.SObjectType sObjectType = Schema.getGlobalDescribe().get(objFullName);
+    Schema.SObjectType sObjectType = Schema.getGlobalDescribe().get(sObjectType.toString());
     return sObjectType;
   }
 
   private Map<String, Schema.SObjectField> getFieldMap() {
     Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe()
-      .get(objFullName)
+      .get(sObjectType.toString())
       .getDescribe()
       .fields.getMap();
     return fieldMap;
-  }
-
-  private class ObjectPermissionException extends Exception {
   }
 }

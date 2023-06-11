@@ -1,7 +1,7 @@
 public inherited sharing class DynamicDao {
   private System.Type sObjectType;
 
-  private static final String SELECT_STRING = ' SELECT ';
+  private static final String SELECT_STRING = 'SELECT ';
   private static final String FROM_STRING = ' FROM ';
   private static final String WHERE_STRING = ' WHERE ';
   private static final String WITH_STRING = ' WITH ';
@@ -16,12 +16,12 @@ public inherited sharing class DynamicDao {
   private static final String COUNT_STRING = ' COUNT() ';
 
   /**
-   * @description Constructor providing object fullName
+   * @description Constructor providing object type.
    * @param sObjectType SObject type.
    */
   public DynamicDao(System.Type sObjectType) {
     if (Schema.getGlobalDescribe().get(sObjectType.toString()) == null) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoNotFoundSObject'));
+      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoNotFoundSObject'));
     }
     this.sObjectType = sObjectType;
   }
@@ -37,7 +37,7 @@ public inherited sharing class DynamicDao {
 
     validatesSoqlClaseForSelfDml(soqlQueryClause);
 
-    String queryStr = getSoqlQuery(soqlQueryClause);
+    String queryStr = getSoqlQuery(soqlQueryClause, false);
     recordList = Database.query(queryStr);
     return recordList;
   }
@@ -64,10 +64,10 @@ public inherited sharing class DynamicDao {
     List<SObject> recordList = new List<SObject>();
 
     validatesSoqlClauseForChildDml(soqlQueryClause);
-    for (String fieldFullName : soqlQUeryClause.parentFieldFullNames) {
+    for (String fieldFullName : soqlQUeryClause.parentSoqlQueryClause.fieldFullNames) {
       soqlQueryClause.fieldFullNames.add(soqlQueryClause.parentRelationName + '.' + fieldFullName);
     }
-    String queryStr = getSoqlQuery(soqlQueryClause);
+    String queryStr = getSoqlQuery(soqlQueryClause, false);
     recordList = Database.query(queryStr);
     return recordList;
   }
@@ -99,9 +99,10 @@ public inherited sharing class DynamicDao {
 
     validatesSoqlClauseForChildDml(soqlQueryClause);
 
-    String childQueryStr = getSoqlQuery(soqlQueryClause.childSoqlQueryClause);
-    soqlQueryClause.fieldFullNames.add(childQueryStr);
-    String queryStr = getSoqlQuery(soqlQueryClause);
+    String childSubQueryStr = getSoqlQuery(soqlQueryClause.childSoqlQueryClause, true);
+    soqlQueryClause.fieldFullNames.add(childSubQueryStr);
+    String queryStr = getSoqlQuery(soqlQueryClause, false);
+    System.debug(queryStr);
     recordList = Database.query(queryStr);
     return recordList;
   }
@@ -150,9 +151,14 @@ public inherited sharing class DynamicDao {
     return countSObjectRecords(soqlQueryClause);
   }
 
-  private String getSoqlQuery(SoqlQueryClause soqlQueryClause) {
+  private String getSoqlQuery(SoqlQueryClause soqlQueryClause, Boolean isChildSubQuery) {
     String queryStr = SELECT_STRING;
-    queryStr += String.join(soqlQueryClause.fieldFullNames, ', ') + FROM_STRING + sObjectType.toString();
+    queryStr += String.join(soqlQueryClause.fieldFullNames, ', ');
+    if (isChildSubQuery) {
+      queryStr += FROM_STRING + soqlQueryClause.childRelationName;
+    } else {
+      queryStr += FROM_STRING + sObjectType.toString();
+    }
     if (soqlQueryClause.whereClause != null) {
       queryStr += WHERE_STRING + soqlQueryClause.whereClause;
     }
@@ -180,29 +186,29 @@ public inherited sharing class DynamicDao {
     if (soqlQueryClause.isForUpdate != null && soqlQueryClause.isForUpdate) {
       queryStr += FOR_UPDATE_STRING;
     }
-    System.debug(queryStr);
+
+    if (isChildSubQuery) {
+      queryStr = '(' + queryStr + ')';
+    }
     return queryStr;
   }
 
   private void validatesSoqlClaseForSelfDml(SoqlQueryClause soqlQUeryClause) {
     if (soqlQueryClause.fieldFullNames == null || soqlQueryClause.fieldFullNames.size() == 0) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyFieldFullNames'));
+      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyFieldFullNames'));
     }
   }
 
   private void validatesSoqlClauseForChildDml(SoqlQueryClause soqlQUeryClause) {
     validatesSoqlClaseForSelfDml(soqlQueryClause);
-    if (soqlQueryClause.childRelationName == null) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoNullChildRelationName'));
+    if (soqlQueryClause.childSoqlQueryClause.childRelationName == null) {
+      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoNullChildRelationName'));
     }
     if (
       soqlQueryClause.childSoqlQueryClause.fieldFullNames == null ||
       soqlQueryClause.childSoqlQueryClause.fieldFullNames.size() == 0
     ) {
-      throw new DynamicDaoException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyChildFieldFullNames'));
+      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyChildFieldFullNames'));
     }
-  }
-
-  private class DynamicDaoException extends Exception {
   }
 }
