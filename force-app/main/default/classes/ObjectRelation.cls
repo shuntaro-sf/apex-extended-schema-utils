@@ -1,10 +1,22 @@
 public with sharing class ObjectRelation {
   System.Type sObjectType;
 
+  /**
+   * @description Constructor providing object type.
+   * @param sObjectType SObject type.
+   */
   public ObjectRelation(System.Type sObjectType) {
+    if (Schema.getGlobalDescribe().get(sObjectType.toString()) == null) {
+      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('objectRelationNotFoundSObject'));
+    }
     this.sObjectType = sObjectType;
   }
 
+  /**
+   * @description Gets ObjectInfos of the all parent objects.
+   * @return Map of labels of parent objects for each of parent relation names.
+   * @example
+   */
   public Map<Schema.SobjectField, List<ObjectInfo>> getParentObjectInfos() {
     Map<Schema.SobjectField, List<ObjectInfo>> parentObjectInfos = new Map<Schema.SobjectField, List<ObjectInfo>>();
     ObjectInfo parentObjectInfo = new ObjectInfo(Account.class);
