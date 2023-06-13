@@ -47,6 +47,21 @@ public with sharing class DynamicDaoTest {
 
   @isTest
   private static void testGetSObjectRecordsInChild() {
+    Account acc = new Account();
+    acc.Name = 'Name';
+    acc.AccountSource = 'Web';
+    acc.Type = 'Prospect';
+    insert acc;
+
+    List<Contact> contacts = new List<Contact>();
+    for (Integer index = 0; index < 10; index++) {
+      Contact con = new Contact();
+      con.LastName = 'Name' + index;
+      con.accountId = acc.Id;
+      Contacts.add(con);
+    }
+    insert contacts;
+
     DynamicDao accountDynamicDao = new DynamicDao(Account.class);
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource', 'Type' };
@@ -54,20 +69,70 @@ public with sharing class DynamicDaoTest {
     soqlQueryClause.orderClause = 'Name';
     soqlQueryClause.withClause = 'SECURITY_ENFORCED';
     soqlQueryClause.limitClause = 100;
-    soqlQUeryClause.offsetClause = 10;
+    soqlQUeryClause.offsetClause = 5;
     soqlQUeryClause.isForView = true;
 
     SoqlQueryClause childSoqlQueryClause = new SoqlQueryClause();
     childSoqlQUeryClause.childRelationName = 'Contacts';
-    childSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountId' };
+    childSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'LastName', 'AccountId' };
     soqlQUeryClause.childSoqlQueryClause = childSoqlQueryClause;
 
     List<SObject> records = accountDynamicDao.getSObjectRecordsInChild(soqlQUeryClause);
-    System.assert(records != null, 'Failed to get child-records.');
+
+    for (Account record : (List<Account>) records) {
+      for (Contact childRecord : record.Contacts) {
+        System.assertEquals(acc.Id, childRecord.AccountId, 'Failed to get child-records.');
+      }
+    }
+  }
+
+  @isTest
+  private static void testGetSObjectRecordsInChildWithOnlyFieldFullnames() {
+    Account acc = new Account();
+    acc.Name = 'Name';
+    acc.AccountSource = 'Web';
+    acc.Type = 'Prospect';
+    insert acc;
+
+    List<Contact> contacts = new List<Contact>();
+    for (Integer index = 0; index < 10; index++) {
+      Contact con = new Contact();
+      con.LastName = 'Name' + index;
+      con.accountId = acc.Id;
+      Contacts.add(con);
+    }
+    insert contacts;
+
+    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    String childRelationName = 'Contacts';
+    List<String> fieldFullNames = new List<String>{ 'Id', 'LastName', 'AccountId' };
+
+    List<SObject> records = accountDynamicDao.getSObjectRecordsInChild(childRelationName, fieldFullNames);
+
+    for (Account record : (List<Account>) records) {
+      for (Contact childRecord : record.Contacts) {
+        System.assertEquals(acc.Id, childRecord.AccountId, 'Failed to get child-records.');
+      }
+    }
   }
 
   @isTest
   private static void testGetSObjectRecordsOfParent() {
+    Account acc = new Account();
+    acc.Name = 'Name';
+    acc.AccountSource = 'Web';
+    acc.Type = 'Prospect';
+    insert acc;
+
+    List<Contact> contacts = new List<Contact>();
+    for (Integer index = 0; index < 10; index++) {
+      Contact con = new Contact();
+      con.LastName = 'Name' + index;
+      con.accountId = acc.Id;
+      Contacts.add(con);
+    }
+    insert contacts;
+
     DynamicDao accountDynamicDao = new DynamicDao(Contact.class);
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'LastName' };
@@ -75,7 +140,7 @@ public with sharing class DynamicDaoTest {
     soqlQueryClause.orderClause = 'Name';
     soqlQueryClause.withClause = 'SECURITY_ENFORCED';
     soqlQueryClause.limitClause = 100;
-    soqlQUeryClause.offsetClause = 10;
+    soqlQUeryClause.offsetClause = 0;
     soqlQUeryClause.isForView = true;
 
     SoqlQueryClause parentSoqlQueryClause = new SoqlQueryClause();
@@ -84,6 +149,36 @@ public with sharing class DynamicDaoTest {
     soqlQUeryClause.parentSoqlQueryClause = parentSoqlQueryClause;
 
     List<SObject> records = accountDynamicDao.getSObjectRecordsOfParent(soqlQUeryClause);
-    System.assert(records != null, 'Failed to get parent-records.');
+
+    for (Contact record : (List<Contact>) records) {
+      System.assertEquals(acc.Id, record.Account.Id, 'Failed to get parent-records.');
+    }
+  }
+
+  @isTest
+  private static void testGetSObjectRecordsOfParentWithOnlyFieldFullNames() {
+    Account acc = new Account();
+    acc.Name = 'Name';
+    acc.AccountSource = 'Web';
+    acc.Type = 'Prospect';
+    insert acc;
+
+    List<Contact> contacts = new List<Contact>();
+    for (Integer index = 0; index < 10; index++) {
+      Contact con = new Contact();
+      con.LastName = 'Name' + index;
+      con.accountId = acc.Id;
+      Contacts.add(con);
+    }
+    insert contacts;
+
+    DynamicDao accountDynamicDao = new DynamicDao(Contact.class);
+    String parentRelationName = 'Account';
+    List<String> fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource' };
+    List<SObject> records = accountDynamicDao.getSObjectRecordsOfParent(parentRelationName, fieldFullNames);
+
+    for (Contact record : (List<Contact>) records) {
+      System.assertEquals(acc.Id, record.Account.Id, 'Failed to get parent-records.');
+    }
   }
 }

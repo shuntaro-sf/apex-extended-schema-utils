@@ -64,6 +64,9 @@ public inherited sharing class DynamicDao {
     List<SObject> recordList = new List<SObject>();
 
     validatesSoqlClauseForParentDml(soqlQueryClause);
+    if (soqlQueryClause.fieldFullNames == null) {
+      soqlQueryClause.fieldFullNames = new List<String>();
+    }
     for (String fieldFullName : soqlQUeryClause.parentSoqlQueryClause.fieldFullNames) {
       soqlQueryClause.fieldFullNames.add(
         soqlQueryClause.parentSoqlQueryClause.parentRelationName + '.' + fieldFullName
@@ -81,12 +84,12 @@ public inherited sharing class DynamicDao {
    * @example
    */
   public List<SObject> getSObjectRecordsOfParent(String parentRelationName, List<String> parentFieldFullNames) {
+    SoqlQueryClause parentSoqlQueryClause = new SoqlQueryClause();
+    parentSoqlQueryClause.parentRelationName = parentRelationName;
+    parentSoqlQueryClause.fieldFullNames = parentFieldFullNames;
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
-    validatesSoqlClauseForParentDml(soqlQueryClause);
-    for (String fieldFullName : parentFieldFullNames) {
-      soqlQueryClause.fieldFullNames.add(parentRelationName + '.' + fieldFullName);
-    }
-    return getSObjectRecords(soqlQueryClause);
+    soqlQueryClause.parentSoqlQUeryClause = parentSoqlQueryClause;
+    return getSObjectRecordsOfParent(soqlQueryClause);
   }
 
   /**
@@ -101,10 +104,11 @@ public inherited sharing class DynamicDao {
     validatesSoqlClauseForChildDml(soqlQueryClause);
 
     String childSubQueryStr = getSoqlQuery(soqlQueryClause.childSoqlQueryClause, true);
+    if (soqlQueryClause.fieldFullNames == null) {
+      soqlQueryClause.fieldFullNames = new List<String>();
+    }
     soqlQueryClause.fieldFullNames.add(childSubQueryStr);
-    String queryStr = getSoqlQuery(soqlQueryClause, false);
-    System.debug(queryStr);
-    recordList = Database.query(queryStr);
+    recordList = getSObjectRecords(soqlQueryClause);
     return recordList;
   }
 
@@ -116,12 +120,11 @@ public inherited sharing class DynamicDao {
    * @example
    */
   public List<SObject> getSObjectRecordsInChild(String childRelationName, List<String> childFieldFullNames) {
+    SoqlQueryClause childSoqlQueryClause = new SoqlQueryClause();
+    childSoqlQUeryClause.childRelationName = childRelationName;
+    childSoqlQUeryClause.fieldFullNames = childFieldFullNames;
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
-    soqlQUeryClause.fieldFullNames = new List<String>{ childRelationName };
-    SoqlQueryClause childSoqlClause = new SoqlQueryClause();
-    childSoqlClause.fieldFullNames = childFieldFullNames;
-    soqlQUeryClause.childSoqlQueryClause = childSoqlClause;
-    soqlQueryClause.childSoqlQueryClause = childSoqlClause;
+    soqlQueryClause.childSoqlQUeryClause = childSoqlQueryClause;
     return getSObjectRecordsInChild(soqlQueryClause);
   }
 
@@ -202,7 +205,6 @@ public inherited sharing class DynamicDao {
   }
 
   private void validatesSoqlClauseForParentDml(SoqlQueryClause soqlQUeryClause) {
-    validatesSoqlClaseForSelfDml(soqlQueryClause);
     if (soqlQueryClause.parentSoqlQueryClause.parentRelationName == null) {
       throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoNullParentRelationName'));
     }
@@ -215,7 +217,6 @@ public inherited sharing class DynamicDao {
   }
 
   private void validatesSoqlClauseForChildDml(SoqlQueryClause soqlQUeryClause) {
-    validatesSoqlClaseForSelfDml(soqlQueryClause);
     if (soqlQueryClause.childSoqlQueryClause.childRelationName == null) {
       throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoNullChildRelationName'));
     }
