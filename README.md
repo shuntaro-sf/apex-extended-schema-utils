@@ -6,7 +6,7 @@
 
 Gets self SObject records.
 
-```
+```apex
 DynamicDao accountDynamicDao = new DynamicDao(Account.class);
 soqlQueryClause soqlQueryClause = new SoqlQueryClause();
 soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource', 'Type' };
@@ -22,7 +22,7 @@ List<SObject> records = accountDynamicDao.getSelfSObjectRecords(soqlQueryClause)
 
 Gets parent SObject records.
 
-```
+```apex
 DynamicDao contactDynamicDao = new DynamicDao(Contact.class);
 SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
 soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'LastName' };
@@ -42,7 +42,7 @@ soqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQu
 
 Gets child SObject records.
 
-```
+```apex
 DynamicDao accountDynamicDao = new DynamicDao(Account.class);
 SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
 soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource', 'Type' };
@@ -63,7 +63,7 @@ List<SObject> records = accountDynamicDao.getSObjectRecordsInChild(soqlQUeryClau
 
 Gets all related SObject records that the relation names of parameter soqlQueryClause refer to.
 
-```
+```apex
  DynamicDao accountDynamicDao = new DynamicDao(Account.class);
 SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
 soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name' };
@@ -93,6 +93,44 @@ soqlQUeryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{
 };
 
 List<SObject> records = accountDynamicDao.getSObjectRecords(soqlQUeryClause);
+```
+
+## ObjectInfo class
+
+## ObjectRelation class
+
+## ObjectPermission class
+
+Gets permissions on Account object.
+
+```apex
+ ObjectPermission objectPermission = new ObjectPermission(Account.class);
+Boolean isCreateable = objectPermission.isCreateable();
+Boolean isUpdateable = objectPermission.isUpdateable();
+Boolean isUpsertable = objectPermission.isUpsertable();
+Boolean isDeletable = objectPermission.isDeletable();
+System.assert(isCreateable, 'Permission to create is wrong.');
+System.assert(isUpdateable, 'Permission to update is wrong.');
+System.assert(isUpsertable, 'Permission to upasert is wrong.');
+System.assert(isDeletable, 'Permission to delete is wrong.');
+```
+
+Gets all field permissions on Account object.
+
+```apex
+ObjectPermission objectPermission = new ObjectPermission(Account.class);
+Map<Schema.SObjectField, Boolean> isAccessible = objectPermission.field.isAccessible();
+Map<Schema.SObjectField, Boolean> isCreateable = objectPermission.field.isCreateable();
+Map<Schema.SObjectField, Boolean> isUpdateable = objectPermission.field.isUpdateable();
+Map<Schema.SObjectField, Boolean> isUpsertable = objectPermission.field.isUpsertable();
+System.assert(isAccessible.get(Account.AccountSource), 'Permission to access is wrong.');
+System.assert(isCreateable.get(Account.AccountSource), 'Permission to create is wrong.');
+System.assert(isUpdateable.get(Account.AccountSource), 'Permission to update is wrong.');
+System.assert(isUpsertable.get(Account.AccountSource), 'Permission to upasert is wrong.');
+System.assert(isAccessible.get(Account.Type), 'Permission to access is wrong.');
+System.assert(isCreateable.get(Account.Type), 'Permission to create is wrong.');
+System.assert(isUpdateable.get(Account.Type), 'Permission to update is wrong.');
+System.assert(isUpsertable.get(Account.Type), 'Permission to upasert is wrong.');
 ```
 
 # Salesforce DX Project: Next Steps
