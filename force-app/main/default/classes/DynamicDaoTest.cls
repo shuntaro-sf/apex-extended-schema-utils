@@ -244,4 +244,50 @@ public with sharing class DynamicDaoTest {
       System.assertEquals(acc.Id, record.Id, 'Failed to get parent-records.');
     }
   }
+
+  @isTest
+  private static void testCountSObjectRecords() {
+    List<Account> accounts = new List<Account>();
+    for (Integer index = 0; index < 10; index++) {
+      Account acc = new Account();
+      acc.Name = 'Name' + index;
+      acc.AccountSource = 'Web';
+      acc.Type = 'Prospect';
+      accounts.add(acc);
+    }
+    insert accounts;
+
+    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+    soqlQueryClause.fieldFullNames = new List<String>{ 'AccountSource' };
+    soqlQueryClause.whereClause = 'Id != null';
+    soqlQueryClause.countClause = 'Id';
+    soqlQueryClause.groupClause = 'AccountSource';
+
+    List<AggregateResult> numberOfRecords = accountDynamicDao.countSObjectRecords(soqlQueryClause);
+    for (AggregateResult aggregateResult : numberOfRecords) {
+      System.assertEquals(aggregateResult.get('expr0'), accounts.size(), 'Failed to count the number of records.');
+    }
+  }
+
+  @isTest
+  private static void testCountSObjectRecordsWithOnlyFieldFullNames() {
+    List<Account> accounts = new List<Account>();
+    for (Integer index = 0; index < 10; index++) {
+      Account acc = new Account();
+      acc.Name = 'Name' + index;
+      acc.AccountSource = 'Web';
+      acc.Type = 'Prospect';
+      accounts.add(acc);
+    }
+    insert accounts;
+
+    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    String groupClause = 'AccountSource';
+
+    List<AggregateResult> numberOfRecords = accountDynamicDao.countSObjectRecords(groupClause);
+    for (AggregateResult aggregateResult : numberOfRecords) {
+      System.assertEquals(aggregateResult.get('expr0'), accounts.size(), 'Failed to count the number of records.');
+    }
+  }
 }

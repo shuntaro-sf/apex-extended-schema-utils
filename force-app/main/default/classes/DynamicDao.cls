@@ -198,10 +198,15 @@ public inherited sharing class DynamicDao {
    */
   public List<AggregateResult> countSObjectRecords(SoqlQueryClause soqlQueryClause) {
     List<AggregateResult> numberOfRecords = new List<AggregateResult>();
-    String queryStr = SELECT_STRING;
-    soqlQueryClause.fieldFullNames.add(COUNT_STRING.replace('()', '(' + soqlQueryClause.countClause + ')'));
-    queryStr += String.join(soqlQueryClause.fieldFullNames, ', ') + FROM_STRING + sObjectType.toString();
-    numberOfRecords = getSObjectRecords(soqlQueryClause);
+    if (soqlQueryClause.fieldFullNames == null) {
+      soqlQueryClause.fieldFullNames = new List<String>();
+    }
+    if (soqlQueryClause.countClause != null) {
+      soqlQueryClause.fieldFullNames.add(COUNT_STRING.replace('()', '(' + soqlQueryClause.countClause + ')'));
+    } else {
+      soqlQueryClause.fieldFullNames.add(COUNT_STRING.replace('()', '(Id)'));
+    }
+    numberOfRecords = getSelfSObjectRecords(soqlQueryClause);
     return numberOfRecords;
   }
 
@@ -233,6 +238,9 @@ public inherited sharing class DynamicDao {
     }
     if (soqlQueryClause.orderClause != null) {
       queryStr += ORDER_STRING + soqlQueryClause.orderClause;
+    }
+    if (soqlQueryClause.groupClause != null) {
+      queryStr += GROUP_STRING + soqlQueryClause.groupClause;
     }
     if (soqlQueryClause.limitClause != null) {
       queryStr += LIMIT_STRING + soqlQueryClause.limitClause;
