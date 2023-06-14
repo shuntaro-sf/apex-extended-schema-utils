@@ -1,5 +1,100 @@
 # This package is in development, and we can't ensure the all function work correctly.
 
+# Example
+
+## DynamicDao class
+
+Gets self SObject records.
+
+```
+DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+soqlQueryClause soqlQueryClause = new SoqlQueryClause();
+soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource', 'Type' };
+soqlQueryClause.whereClause = 'Id != null';
+soqlQueryClause.orderClause = 'Name';
+soqlQueryClause.withClause = 'SECURITY_ENFORCED';
+soqlQueryClause.limitClause = 100;
+soqlQUeryClause.offsetClause = 5;
+soqlQUeryClause.isForView = true;
+
+List<SObject> records = accountDynamicDao.getSelfSObjectRecords(soqlQueryClause);
+```
+
+Gets parent SObject records.
+
+```
+DynamicDao contactDynamicDao = new DynamicDao(Contact.class);
+SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'LastName' };
+soqlQueryClause.whereClause = 'Id != null';
+soqlQueryClause.orderClause = 'Name';
+soqlQueryClause.withClause = 'SECURITY_ENFORCED';
+soqlQueryClause.limitClause = 100;
+soqlQUeryClause.offsetClause = 0;
+soqlQUeryClause.isForView = true;
+
+SoqlQueryClause parentSoqlQueryClause = new SoqlQueryClause();
+parentSoqlQUeryClause.parentRelationName = 'Account';
+parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource' };
+
+soqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
+```
+
+Gets child SObject records.
+
+```
+DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource', 'Type' };
+soqlQueryClause.whereClause = 'Id != null';
+soqlQueryClause.orderClause = 'Name';
+soqlQueryClause.withClause = 'SECURITY_ENFORCED';
+soqlQueryClause.limitClause = 100;
+soqlQUeryClause.offsetClause = 5;
+soqlQUeryClause.isForView = true;
+
+SoqlQueryClause childSoqlQueryClause = new SoqlQueryClause();
+childSoqlQUeryClause.childRelationName = 'Contacts';
+childSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'LastName', 'AccountId' };
+soqlQUeryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{ childSoqlQueryClause };
+
+List<SObject> records = accountDynamicDao.getSObjectRecordsInChild(soqlQUeryClause);
+```
+
+Gets all related SObject records that the relation names of parameter soqlQueryClause refer to.
+
+```
+ DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name' };
+soqlQueryClause.whereClause = 'Id != null';
+soqlQueryClause.orderClause = 'Name';
+soqlQueryClause.withClause = 'SECURITY_ENFORCED';
+soqlQueryClause.limitClause = 100;
+soqlQUeryClause.offsetClause = 0;
+soqlQUeryClause.isForView = true;
+
+SoqlQueryClause firstChildSoqlQueryClause = new SoqlQueryClause();
+firstChildSoqlQUeryClause.childRelationName = 'Contacts';
+firstChildSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountId' };
+
+SoqlQueryClause secondChildSoqlQueryClause = new SoqlQueryClause();
+secondChildSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name' };
+secondChildSoqlQUeryClause.childRelationName = 'Opportunities';
+
+SoqlQueryClause parentSoqlQueryClause = new SoqlQueryClause();
+parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountId' };
+parentSoqlQUeryClause.childRelationName = 'Account';
+firstChildSoqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
+
+soqlQUeryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{
+  firstChildSoqlQueryClause,
+  secondChildSoqlQueryClause
+};
+
+List<SObject> records = accountDynamicDao.getSObjectRecords(soqlQUeryClause);
+```
+
 # Salesforce DX Project: Next Steps
 
 Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
