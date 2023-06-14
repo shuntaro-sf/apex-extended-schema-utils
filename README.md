@@ -97,6 +97,14 @@ List<SObject> records = accountDynamicDao.getSObjectRecords(soqlQUeryClause);
 
 ## ObjectInfo class
 
+Gets fullName and label of Account object.
+
+```apex
+ObjectInfo objectInfo = new ObjectInfo(Account.class);
+String objectFullName = objectInfo.getFullName();
+String objectLabel = objectInfo.getLabel();
+```
+
 ## ObjectRelation class
 
 ## ObjectPermission class
@@ -109,10 +117,6 @@ Boolean isCreateable = objectPermission.isCreateable();
 Boolean isUpdateable = objectPermission.isUpdateable();
 Boolean isUpsertable = objectPermission.isUpsertable();
 Boolean isDeletable = objectPermission.isDeletable();
-System.assert(isCreateable, 'Permission to create is wrong.');
-System.assert(isUpdateable, 'Permission to update is wrong.');
-System.assert(isUpsertable, 'Permission to upasert is wrong.');
-System.assert(isDeletable, 'Permission to delete is wrong.');
 ```
 
 Gets all field permissions on Account object.
@@ -127,10 +131,6 @@ System.assert(isAccessible.get(Account.AccountSource), 'Permission to access is 
 System.assert(isCreateable.get(Account.AccountSource), 'Permission to create is wrong.');
 System.assert(isUpdateable.get(Account.AccountSource), 'Permission to update is wrong.');
 System.assert(isUpsertable.get(Account.AccountSource), 'Permission to upasert is wrong.');
-System.assert(isAccessible.get(Account.Type), 'Permission to access is wrong.');
-System.assert(isCreateable.get(Account.Type), 'Permission to create is wrong.');
-System.assert(isUpdateable.get(Account.Type), 'Permission to update is wrong.');
-System.assert(isUpsertable.get(Account.Type), 'Permission to upasert is wrong.');
 ```
 
 # Salesforce DX Project: Next Steps
