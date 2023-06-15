@@ -4,7 +4,11 @@
 
 ## DynamicDao class
 
-Gets self SObject records.
+An example of getting self SObject records, equivalent to the following SOQL.
+
+```soql
+SELECT Id, Name, AccountSource, Type FROM Account WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
+```
 
 ```apex
 DynamicDao accountDynamicDao = new DynamicDao(Account.class);
@@ -20,7 +24,11 @@ soqlQUeryClause.isForView = true;
 List<SObject> records = accountDynamicDao.getSelfSObjectRecords(soqlQueryClause);
 ```
 
-Gets parent SObject records.
+An Example of getting parent SObject records, equivalent to the following SOQL.
+
+```soql
+SELECT Account.Id, Account.Name, Account.LastName FROM Contact WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
+```
 
 ```apex
 DynamicDao contactDynamicDao = new DynamicDao(Contact.class);
@@ -40,7 +48,11 @@ parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountS
 soqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
 ```
 
-Gets child SObject records.
+An Example of getting child SObject records, equivalent to the following SOQL.
+
+```soql
+SELECT Id, Name, AccountSource, Type, (SELECT Id, Lastname, AccountId FROM Contacts) FROM Account WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
+```
 
 ```apex
 DynamicDao accountDynamicDao = new DynamicDao(Account.class);
@@ -61,7 +73,8 @@ soqlQUeryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{ childSoqlQuer
 List<SObject> records = accountDynamicDao.getSObjectRecordsInChild(soqlQUeryClause);
 ```
 
-Gets all related SObject records that the relation names of parameter soqlQueryClause refer to.
+An Example of getting all related SObject records that the relation names of parameter soqlQueryClause refer to.
+The execution is equivalent to the following SOQL.
 
 ```apex
  DynamicDao accountDynamicDao = new DynamicDao(Account.class);
@@ -97,7 +110,7 @@ List<SObject> records = accountDynamicDao.getSObjectRecords(soqlQUeryClause);
 
 ## ObjectInfo class
 
-Gets fullName and label of Account object.
+An Example of getting fullName and label of Account object.
 
 ```apex
 ObjectInfo objectInfo = new ObjectInfo(Account.class);
@@ -109,7 +122,7 @@ String objectLabel = objectInfo.getLabel();
 
 ## ObjectPermission class
 
-Gets permissions on Account object.
+An Example of getting permissions on Account object.
 
 ```apex
  ObjectPermission objectPermission = new ObjectPermission(Account.class);
@@ -119,7 +132,7 @@ Boolean isUpsertable = objectPermission.isUpsertable();
 Boolean isDeletable = objectPermission.isDeletable();
 ```
 
-Gets all field permissions on Account object.
+An Example of getting all field permissions on Account object.
 
 ```apex
 ObjectPermission objectPermission = new ObjectPermission(Account.class);
