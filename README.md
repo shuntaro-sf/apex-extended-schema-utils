@@ -8,7 +8,7 @@ An example of getting self SObject records, equivalent to the following SOQL.
 
 ```soql
 SELECT Id, Name, AccountSource, Type FROM Account
- WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
+WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
 ```
 
 ```apex
@@ -29,7 +29,7 @@ An Example of getting parent SObject records, equivalent to the following SOQL.
 
 ```soql
 SELECT Account.Id, Account.Name, Account.LastName FROM Contact
- WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 0 FOR VIEW
+WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 0 FOR VIEW
 ```
 
 ```apex
@@ -54,8 +54,8 @@ An Example of getting child SObject records, equivalent to the following SOQL.
 
 ```soql
 SELECT Id, Name, AccountSource, Type,
- (SELECT Id, LastName, AccountId FROM Contacts) FROM Account
-  WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
+(SELECT Id, LastName, AccountId FROM Contacts) FROM Account
+WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
 ```
 
 ```apex
@@ -154,10 +154,6 @@ Map<Schema.SObjectField, Boolean> isAccessible = objectPermission.field.isAccess
 Map<Schema.SObjectField, Boolean> isCreateable = objectPermission.field.isCreateable();
 Map<Schema.SObjectField, Boolean> isUpdateable = objectPermission.field.isUpdateable();
 Map<Schema.SObjectField, Boolean> isUpsertable = objectPermission.field.isUpsertable();
-System.assert(isAccessible.get(Account.AccountSource), 'Permission to access is wrong.');
-System.assert(isCreateable.get(Account.AccountSource), 'Permission to create is wrong.');
-System.assert(isUpdateable.get(Account.AccountSource), 'Permission to update is wrong.');
-System.assert(isUpsertable.get(Account.AccountSource), 'Permission to upasert is wrong.');
 ```
 
 # Salesforce DX Project: Next Steps
