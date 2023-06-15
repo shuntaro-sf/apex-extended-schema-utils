@@ -74,6 +74,9 @@ List<SObject> records = accountDynamicDao.getSObjectRecordsInChild(soqlQUeryClau
 ```
 
 An Example of getting all related SObject records that the relation names of parameter soqlQueryClause refer to.
+
+The method getSObjectRecords allow you to get related records including parent and child SObjects. Self => Parent, Self => Child, and Child => Parent are supported.
+
 The execution is equivalent to the following SOQL.
 
 ```soql
