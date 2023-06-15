@@ -7,7 +7,8 @@
 An example of getting self SObject records, equivalent to the following SOQL.
 
 ```soql
-SELECT Id, Name, AccountSource, Type FROM Account WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
+SELECT Id, Name, AccountSource, Type FROM Account
+ WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
 ```
 
 ```apex
@@ -27,7 +28,8 @@ List<SObject> records = accountDynamicDao.getSelfSObjectRecords(soqlQueryClause)
 An Example of getting parent SObject records, equivalent to the following SOQL.
 
 ```soql
-SELECT Account.Id, Account.Name, Account.LastName FROM Contact WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 0 FOR VIEW
+SELECT Account.Id, Account.Name, Account.LastName FROM Contact
+ WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 0 FOR VIEW
 ```
 
 ```apex
@@ -51,7 +53,9 @@ soqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQu
 An Example of getting child SObject records, equivalent to the following SOQL.
 
 ```soql
-SELECT Id, Name, AccountSource, Type, (SELECT Id, LastName, AccountId FROM Contacts) FROM Account WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
+SELECT Id, Name, AccountSource, Type,
+ (SELECT Id, LastName, AccountId FROM Contacts) FROM Account
+  WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 5 FOR VIEW
 ```
 
 ```apex
@@ -80,7 +84,10 @@ The method getSObjectRecords allow you to get related records including parent a
 The execution is equivalent to the following SOQL.
 
 ```soql
-SELECT Id, Name, (SELECT Id, Name, AccountId, Account.Id, Account.Name, Account.AccountId FROM Contacts), (SELECT Id, Name FROM Opportunities) FROM Account WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 0 FOR VIEW
+SELECT Id, Name,
+(SELECT Id, Name, AccountId, Account.Id, Account.Name, Account.AccountId FROM Contacts),
+(SELECT Id, Name FROM Opportunities) FROM Account
+WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 0 FOR VIEW
 ```
 
 ```apex
