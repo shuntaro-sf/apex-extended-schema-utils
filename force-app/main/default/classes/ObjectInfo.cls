@@ -70,7 +70,7 @@ public with sharing class ObjectInfo {
      * @return Map of field data types for each of Scema.SObjectField objects.
      * @example
      */
-    public Map<Schema.SObjectField, String> getDataTypes() {
+    public Map<Schema.SObjectField, String> getTypes() {
       Map<Schema.SObjectField, String> dataTypes = new Map<Schema.SObjectField, String>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
       for (String fieldName : fieldMap.keySet()) {
@@ -92,14 +92,62 @@ public with sharing class ObjectInfo {
       Map<Schema.SObjectField, Map<String, String>> picklistLabels = new Map<Schema.SObjectField, Map<String, String>>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
       for (String fieldName : fieldMap.keySet()) {
-        Map<String, String> pickListLabelsForEachField = new Map<String, String>();
         List<Schema.PicklistEntry> pickListValues = getPicklistEntries(fieldMap.get(fieldName));
+        if (pickListValues == null) {
+          continue;
+        }
+        Map<String, String> pickListLabelsForEachField = new Map<String, String>();
         for (Schema.PicklistEntry f : pickListValues) {
           pickListLabelsForEachField.put(f.getValue(), f.getLabel());
         }
         picklistLabels.put(fieldMap.get(fieldName), pickListLabelsForEachField);
       }
       return pickListLabels;
+    }
+
+    public Map<Schema.SObjectField, Integer> getDigits() {
+      Map<Schema.SObjectField, Integer> digits = new Map<Schema.SObjectField, Integer>();
+      Map<String, Schema.SObjectField> fieldMap = getFieldMap();
+      for (String fieldName : fieldMap.keySet()) {
+        digits.put(fieldMap.get(fieldName), fieldMap.get(fieldName).getDescribe().getDigits());
+      }
+      return digits;
+    }
+
+    public Map<Schema.SObjectField, Integer> getLengths() {
+      Map<Schema.SObjectField, Integer> lengths = new Map<Schema.SObjectField, Integer>();
+      Map<String, Schema.SObjectField> fieldMap = getFieldMap();
+      for (String fieldName : fieldMap.keySet()) {
+        lengths.put(fieldMap.get(fieldName), fieldMap.get(fieldName).getDescribe().getLength());
+      }
+      return lengths;
+    }
+
+    public Map<Schema.SObjectField, Integer> getPrecisions() {
+      Map<Schema.SObjectField, Integer> precisions = new Map<Schema.SObjectField, Integer>();
+      Map<String, Schema.SObjectField> fieldMap = getFieldMap();
+      for (String fieldName : fieldMap.keySet()) {
+        precisions.put(fieldMap.get(fieldName), fieldMap.get(fieldName).getDescribe().getLength());
+      }
+      return precisions;
+    }
+
+    public Map<Schema.SObjectField, Integer> getScales() {
+      Map<Schema.SObjectField, Integer> scales = new Map<Schema.SObjectField, Integer>();
+      Map<String, Schema.SObjectField> fieldMap = getFieldMap();
+      for (String fieldName : fieldMap.keySet()) {
+        scales.put(fieldMap.get(fieldName), fieldMap.get(fieldName).getDescribe().getLength());
+      }
+      return scales;
+    }
+
+    public Map<Schema.SObjectField, List<Schema.SObjectType>> getReferencesTo() {
+      Map<Schema.SObjectField, List<Schema.SObjectType>> referencesTo = new Map<Schema.SObjectField, List<Schema.SObjectType>>();
+      Map<String, Schema.SObjectField> fieldMap = getFieldMap();
+      for (String fieldName : fieldMap.keySet()) {
+        referencesTo.put(fieldMap.get(fieldName), fieldMap.get(fieldName).getDescribe().getReferenceTo());
+      }
+      return referencesTo;
     }
 
     private Map<String, Schema.SObjectField> getFieldMap() {

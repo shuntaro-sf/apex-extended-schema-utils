@@ -15,7 +15,7 @@ public without sharing class ObjectInfoTest {
     ObjectInfo objectInfo = new ObjectInfo(Account.class);
     List<String> fieldFullNames = objectInfo.field.getFullNames();
     Map<Schema.SObjectField, String> fieldLabels = objectInfo.field.getLabels();
-    Map<Schema.SObjectField, String> dataTypes = objectInfo.field.getDataTypes();
+    Map<Schema.SObjectField, String> dataTypes = objectInfo.field.getTypes();
     Map<Schema.SObjectField, Map<String, String>> picklistLabels = objectInfo.field.getPicklistLabels();
 
     System.assert(fieldFullNames.contains('AccountSource'), 'Field fullNames are wrong.');
