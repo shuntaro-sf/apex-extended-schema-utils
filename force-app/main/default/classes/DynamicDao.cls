@@ -68,7 +68,7 @@ public inherited sharing class DynamicDao {
       soqlQueryClause.fieldFullNames = new List<String>();
     }
     for (Integer index = 0; index < soqlQueryClause.parentSoqlQueryClauses.size(); index++) {
-      soqlQueryClause.parentSoqlQueryClauses[index].parentSoqlQueryClause = null;
+      soqlQueryClause.parentSoqlQueryClauses[index].parentSoqlQueryClauses = null;
     }
     if (soqlQueryClause.childSoqlQueryClauses != null) {
       soqlQueryClause.childSoqlQueryClauses = null;
@@ -107,7 +107,7 @@ public inherited sharing class DynamicDao {
       soqlQueryClause.fieldFullNames = new List<String>();
     }
     for (Integer index = 0; index < soqlQueryClause.childSoqlQueryClauses.size(); index++) {
-      soqlQueryClause.childSoqlQueryClauses[index].childSoqlQueryClause = null;
+      soqlQueryClause.childSoqlQueryClauses[index].childSoqlQueryClauses = null;
     }
     recordList = getSObjectRecords(soqlQueryClause);
     return recordList;
@@ -220,6 +220,10 @@ public inherited sharing class DynamicDao {
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.groupClause = groupClause;
     return countSObjectRecords(soqlQueryClause);
+  }
+
+  public String getSoqlQuery(SoqlQueryClause soqlQueryClause) {
+    return getSoqlQuery(soqlQueryClause, false);
   }
 
   private String getSoqlQuery(SoqlQueryClause soqlQueryClause, Boolean isChildSubQuery) {
