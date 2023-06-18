@@ -91,7 +91,7 @@ WEHRE Id != null ORDER BY Name WITH SECURITY_ENFORCED LIMIT 100 OFFSET 0 FOR VIE
 ```
 
 ```apex
- DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+DynamicDao accountDynamicDao = new DynamicDao(Account.class);
 SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
 soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name' };
 soqlQueryClause.whereClause = 'Id != null';
@@ -110,7 +110,7 @@ secondChildSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name' };
 secondChildSoqlQUeryClause.childRelationName = 'Opportunities';
 
 SoqlQueryClause parentSoqlQueryClause = new SoqlQueryClause();
-parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountId' };
+parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource' };
 parentSoqlQUeryClause.childRelationName = 'Account';
 firstChildSoqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
 
@@ -124,7 +124,7 @@ List<SObject> records = accountDynamicDao.getSObjectRecords(soqlQUeryClause);
 
 ## ObjectInfo class
 
-An Example of getting fullName and label of Account object.
+An Example of getting the fullName and label of Account object.
 
 ```apex
 ObjectInfo objectInfo = new ObjectInfo(Account.class);
@@ -132,7 +132,23 @@ String objectFullName = objectInfo.getFullName();
 String objectLabel = objectInfo.getLabel();
 ```
 
+An Example of getting the fullName and label of all fields on Account object.
+
 ## ObjectRelation class
+
+An exmaple of getting all parent-ObjectInfo class mapped to each of child field's Schema.SObjectField objects.
+
+```apex
+ObjectRelation objectRelation = new ObjectRelation(Contact.class);
+Map<Schema.SobjectField, List<ObjectInfo>> parentObjectInfos = objectRelation.getParentObjectInfos();
+```
+
+An exmaple of getting all child-ObjectInfo class mapped to each of child relation names of the parent-object.
+
+```apex
+ObjectRelation objectRelation = new ObjectRelation(Account.class);
+Map<String, ObjectInfo> childObjectInfos = objectRelation.getChildObjectInfos();
+```
 
 ## ObjectPermission class
 
@@ -140,6 +156,7 @@ An Example of getting permissions on Account object.
 
 ```apex
  ObjectPermission objectPermission = new ObjectPermission(Account.class);
+Boolean isAccessible = objectPermission.isAccessible();
 Boolean isCreateable = objectPermission.isCreateable();
 Boolean isUpdateable = objectPermission.isUpdateable();
 Boolean isUpsertable = objectPermission.isUpsertable();

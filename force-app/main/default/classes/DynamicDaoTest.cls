@@ -229,7 +229,7 @@ public with sharing class DynamicDaoTest {
     secondChildSoqlQUeryClause.childRelationName = 'Opportunities';
 
     SoqlQueryClause parentSoqlQueryClause = new SoqlQueryClause();
-    parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountId' };
+    parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource' };
     parentSoqlQUeryClause.childRelationName = 'Account';
     firstChildSoqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
 
