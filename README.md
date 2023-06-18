@@ -134,6 +134,12 @@ String objectLabel = objectInfo.getLabel();
 
 An Example of getting the fullName and label of all fields on Account object.
 
+```apex
+ObjectInfo objectInfo = new ObjectInfo(Account.class);
+List<String> fieldFullNames = objectInfo.field.getFullNames();
+Map<Schema.SObjectField, String> fieldLabels = objectInfo.field.getLabels();
+```
+
 ## ObjectRelation class
 
 An exmaple of getting all parent-ObjectInfo class mapped to each of child field's Schema.SObjectField objects.
