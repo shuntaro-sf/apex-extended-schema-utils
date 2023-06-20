@@ -1,5 +1,266 @@
 # This package is in development, and we can't ensure the all function work correctly.
 
+# Usage
+
+## DynamicDao class
+
+###
+
+###
+
+###
+
+###
+
+## ObjectInfo class
+
+###
+
+###
+
+###
+
+###
+
+### getSelfSObjectRecords(soqlQueryClause)
+
+Gets the records of sObjectType.
+
+#### Signature
+
+`public List<SObject> getSelfSObjectRecords(SoqlQueryClause soqlQueryClause)`
+
+#### Parameters
+
+#### soqlQueryClause
+
+Type: SoqlQueryClause
+
+SoqlQueryClause object to be converted to a soql query string when extracting records.
+
+#### Return Value
+
+Type: List<SObject>
+
+### getSelfSObjectRecords(fieldFullNames)
+
+#### Signature
+
+`public List<SObject> getSelfSObjectRecords(List<String> fieldFullNames)`
+
+#### Parameters
+
+#### fieldFullNames
+
+Type: List<String>
+
+Fiedl fullNames of records to extract.
+
+#### Return Value
+
+Type: List<String>
+
+### getSObjectRecordsOfParent(soqlQueryClause)
+
+#### Signature
+
+`public List<SObject> getSObjectRecordsOfParent(SoqlQueryClause soqlQueryClause)`
+
+#### Parameters
+
+#### soqlQueryClause
+
+Type: SoqlQueryClause
+
+SoqlQueryClause object to be converted to a soql query string when extracting parent records.
+
+#### Return Value
+
+Type: List<String>
+
+/\*\*
+
+- @description Gets the parent-records of sObjectType.
+- @param soqlQueryClause SoqlQueryClause object referenece.
+- @return List of sObjectType's parent-object class.
+- @example
+  \*/
+  public List<SObject> getSObjectRecordsOfParent(SoqlQueryClause soqlQueryClause) {
+  List<SObject> recordList = new List<SObject>();
+
+
+    validatesSoqlClauseForParentDml(soqlQueryClause);
+    if (soqlQueryClause.fieldFullNames == null) {
+      soqlQueryClause.fieldFullNames = new List<String>();
+    }
+    for (Integer index = 0; index < soqlQueryClause.parentSoqlQueryClauses.size(); index++) {
+      soqlQueryClause.parentSoqlQueryClauses[index].parentSoqlQueryClauses = null;
+    }
+    if (soqlQueryClause.childSoqlQueryClauses != null) {
+      soqlQueryClause.childSoqlQueryClauses = null;
+    }
+    recordList = getSObjectRecords(soqlQueryClause);
+    return recordList;
+
+}
+
+/\*\*
+
+- @description Gets the parent-records of sObjectType.
+- @param parentRelationName Parent relation name.
+- @param parentFieldFullNames Field fullNames of parent-object.
+- @return List of sObjectType's parent-object class.
+- @example
+  \*/
+  public List<SObject> getSObjectRecordsOfParent(String parentRelationName, List<String> parentFieldFullNames) {
+  SoqlQueryClause parentSoqlQueryClause = new SoqlQueryClause();
+  parentSoqlQueryClause.parentRelationName = parentRelationName;
+  parentSoqlQueryClause.fieldFullNames = parentFieldFullNames;
+  SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+  soqlQueryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
+  return getSObjectRecordsOfParent(soqlQueryClause);
+  }
+
+/\*\*
+
+- @description Gets the child-records of sObjectType.
+- @param soqlQueryClause SoqlQueryClause object referenece.
+- @return List of sObjectTypes's child-object class.
+- @example
+  \*/
+  public List<SObject> getSObjectRecordsInChild(SoqlQueryClause soqlQueryClause) {
+  List<SObject> recordList = new List<SObject>();
+
+
+    validatesSoqlClauseForChildDml(soqlQueryClause);
+    if (soqlQueryClause.fieldFullNames == null) {
+      soqlQueryClause.fieldFullNames = new List<String>();
+    }
+    for (Integer index = 0; index < soqlQueryClause.childSoqlQueryClauses.size(); index++) {
+      soqlQueryClause.childSoqlQueryClauses[index].childSoqlQueryClauses = null;
+    }
+    recordList = getSObjectRecords(soqlQueryClause);
+    return recordList;
+
+}
+
+/\*\*
+
+- @description Gets the child-records of sObjectType.
+- @param childRelationName Relation name of child-object. Example: Accounts, CustomObj\_\_r.
+- @param childFieldFullNames Field API Names of child-object.
+- @return List of sObjectTypes's child-object class.
+- @example
+  \*/
+  public List<SObject> getSObjectRecordsInChild(String childRelationName, List<String> childFieldFullNames) {
+  SoqlQueryClause childSoqlQueryClause = new SoqlQueryClause();
+  childSoqlQueryClause.childRelationName = childRelationName;
+  childSoqlQueryClause.fieldFullNames = childFieldFullNames;
+  SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+  soqlQueryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{ childSoqlQueryClause };
+  return getSObjectRecordsInChild(soqlQueryClause);
+  }
+
+/\*\*
+
+- @description Gets the records of sObjectType.
+- @param soqlQueryClause SoqlQueryClause object reference.
+- @return List of sObjectType class.
+- @example
+  \*/
+  public List<SObject> getSObjectRecords(SoqlQueryClause soqlQueryClause) {
+  List<SObject> recordList = new List<SObject>();
+
+
+    String queryStr = getAllRelatedSoqlQuery(soqlQueryClause, true);
+    recordList = Database.query(queryStr);
+    return recordList;
+
+}
+
+public void collectParentFieldSoqlQuery(
+SoqlQueryClause soqlQueryClause,
+List<String> fieldFullNamesForQuery,
+String relationStr
+) {
+if (soqlQueryClause.parentSoqlQueryClauses != null) {
+for (Integer index = 0; index < soqlQueryClause.parentSoqlQueryClauses.size(); index++) {
+collectParentFieldSoqlQuery(
+soqlQueryClause.parentSoqlQueryClauses[index],
+fieldFullNamesForQuery,
+relationStr + soqlQueryClause.parentSoqlQueryClauses[index].parentRelationName + '.'
+);
+}
+} else if (soqlQueryClause.parentRelationName != null) {
+for (Integer index = 0; index < soqlQueryClause.fieldFullNames.size(); index++) {
+fieldFullNamesForQuery.add(relationStr + soqlQueryClause.fieldFullNames[index]);
+}
+}
+}
+
+public String getAllRelatedSoqlQuery(SoqlQueryClause soqlQueryClause, Boolean isFirstRecurence) {
+if (soqlQueryClause.childSoqlQueryClauses != null) {
+for (Integer index = 0; index < soqlQueryClause.childSoqlQueryClauses.size(); index++) {
+String childSubQueryStr = getSoqlQuery(soqlQueryClause.childSoqlQueryClauses[index], true);
+if (soqlQueryClause.fieldFullNames == null) {
+soqlQueryClause.fieldFullNames = new List<String>();
+}
+soqlQueryClause.fieldFullNames.add(getAllRelatedSoqlQuery(soqlQueryClause.childSoqlQueryClauses[index], false));
+}
+validatesSoqlClaseForSelfDml(soqlQueryClause);
+if (isFirstRecurence) {
+return getSoqlQuery(soqlQueryClause, false);
+} else {
+return getSoqlQuery(soqlQueryClause, true);
+}
+} else {
+List<String> fieldFullNamesWithParent = soqlQueryClause.fieldFullNames.clone();
+collectParentFieldSoqlQuery(soqlQueryClause, fieldFullNamesWithParent, '');
+soqlQueryClause.fieldFullNames = fieldFullNamesWithParent;
+if (isFirstRecurence) {
+return getSoqlQuery(soqlQueryClause, false);
+} else {
+return getSoqlQuery(soqlQueryClause, true);
+}
+}
+}
+
+/\*\*
+
+- @description Counts the number of records of sObjectType.
+- @param soqlQueryClause SoqlQueryClause object reference.
+- @return List of AggregateResult class.
+- @example
+  \*/
+  public List<AggregateResult> countSObjectRecords(SoqlQueryClause soqlQueryClause) {
+  List<AggregateResult> numberOfRecords = new List<AggregateResult>();
+  if (soqlQueryClause.fieldFullNames == null) {
+  soqlQueryClause.fieldFullNames = new List<String>();
+  }
+  if (soqlQueryClause.countClause != null) {
+  soqlQueryClause.fieldFullNames.add(COUNT_STRING.replace('()', '(' + soqlQueryClause.countClause + ')'));
+  } else {
+  soqlQueryClause.fieldFullNames.add(COUNT_STRING.replace('()', '(Id)'));
+  }
+  numberOfRecords = getSelfSObjectRecords(soqlQueryClause);
+  return numberOfRecords;
+  }
+
+/\*\*
+
+- @description Counts the number of records of sObjectType
+- @param groupClause Group clause for SOQL query.
+- @return List of AggregateResult class.
+- @example
+  \*/
+  public List<AggregateResult> countSObjectRecords(String groupClause) {
+  SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+  soqlQueryClause.groupClause = groupClause;
+  return countSObjectRecords(soqlQueryClause);
+  }
+
+public String getSoqlQuery(SoqlQueryClause soqlQueryClause) {
+
 # Example
 
 ## DynamicDao class
@@ -120,6 +381,23 @@ soqlQUeryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{
 };
 
 List<SObject> records = accountDynamicDao.getSObjectRecords(soqlQUeryClause);
+```
+
+An example of counting the number of Account records, equivalent to the following SOQL.
+
+```soql
+SELECT COUNT(Id) FROM Account WHERE Id != null GROUP BY AccountSource
+```
+
+```apex
+DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+soqlQueryClause.fieldFullNames = new List<String>{ 'AccountSource' };
+soqlQueryClause.whereClause = 'Id != null';
+soqlQueryClause.countClause = 'Id';
+soqlQueryClause.groupClause = 'AccountSource';
+
+List<AggregateResult> numberOfRecords = accountDynamicDao.countSObjectRecords(soqlQueryClause);
 ```
 
 ## ObjectInfo class
