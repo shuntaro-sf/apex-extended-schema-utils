@@ -26,7 +26,7 @@ public without sharing class ObjectInfoTest {
   private static void testGetFieldDetails() {
     ObjectInfo objectInfo = new ObjectInfo(Account.class);
 
-    Map<Schema.SObjectField, String> dataTypes = objectInfo.field.getTypes();
+    Map<Schema.SObjectField, String> types = objectInfo.field.getTypes();
     Map<Schema.SObjectField, Map<String, String>> picklistLabels = objectInfo.field.getPicklistLabels();
     Map<Schema.SObjectField, Integer> digits = objectInfo.field.getDigits();
     Map<Schema.SObjectField, Integer> lengths = objectInfo.field.getLengths();
@@ -37,8 +37,8 @@ public without sharing class ObjectInfoTest {
     Map<Schema.SObjectField, Boolean> isRequired = objectInfo.field.isRequired();
     Map<Schema.SObjectField, Boolean> isUnique = objectInfo.field.isUnique();
 
-    System.assertEquals('PICKLIST', dataTypes.get(Account.AccountSource), 'Field data types are wrong.');
-    System.assertEquals('PICKLIST', dataTypes.get(Account.Type), 'Field data types are wrong.');
+    System.assertEquals('PICKLIST', types.get(Account.AccountSource), 'Field data types are wrong.');
+    System.assertEquals('PICKLIST', types.get(Account.Type), 'Field data types are wrong.');
     System.assertEquals(
       'Web',
       picklistLabels.get(Account.AccountSource).get('Web'),

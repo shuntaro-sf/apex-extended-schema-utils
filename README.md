@@ -140,6 +140,21 @@ List<String> fieldFullNames = objectInfo.field.getFullNames();
 Map<Schema.SObjectField, String> fieldLabels = objectInfo.field.getLabels();
 ```
 
+An Example of getting the further metadata of fields on Account object, e.g., type, length, scale, precision, ....
+
+```apex
+Map<Schema.SObjectField, String> types = objectInfo.field.getTypes();
+Map<Schema.SObjectField, Map<String, String>> picklistLabels = objectInfo.field.getPicklistLabels();
+Map<Schema.SObjectField, Integer> digits = objectInfo.field.getDigits();
+Map<Schema.SObjectField, Integer> lengths = objectInfo.field.getLengths();
+Map<Schema.SObjectField, Integer> precisions = objectInfo.field.getPrecisions();
+Map<Schema.SObjectField, Integer> scales = objectInfo.field.getScales();
+Map<Schema.SObjectField, List<Schema.SObjectType>> referencesTo = objectInfo.field.getReferencesTo();
+Map<Schema.SObjectField, Boolean> isExternalId = objectInfo.field.isExternalId();
+Map<Schema.SObjectField, Boolean> isRequired = objectInfo.field.isRequired();
+Map<Schema.SObjectField, Boolean> isUnique = objectInfo.field.isUnique();
+```
+
 ## ObjectRelation class
 
 An exmaple of getting all parent-ObjectInfo class mapped to each of child field's Schema.SObjectField objects.
