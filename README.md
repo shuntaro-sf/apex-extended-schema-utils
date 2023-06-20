@@ -25,7 +25,7 @@ soqlQUeryClause.isForView = true;
 List<SObject> records = accountDynamicDao.getSelfSObjectRecords(soqlQueryClause);
 ```
 
-An Example of getting parent SObject records, equivalent to the following SOQL.
+An example of getting parent SObject records, equivalent to the following SOQL.
 
 ```soql
 SELECT Account.Id, Account.Name, Account.LastName FROM Contact
@@ -50,7 +50,7 @@ parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountS
 soqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
 ```
 
-An Example of getting child SObject records, equivalent to the following SOQL.
+An example of getting child SObject records, equivalent to the following SOQL.
 
 ```soql
 SELECT Id, Name, AccountSource, Type,
@@ -77,7 +77,7 @@ soqlQUeryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{ childSoqlQuer
 List<SObject> records = accountDynamicDao.getSObjectRecordsInChild(soqlQUeryClause);
 ```
 
-An Example of getting all related SObject records that the relation names of parameter soqlQueryClause refer to.
+An example of getting all related SObject records that the relation names of parameter soqlQueryClause refer to.
 
 The method getSObjectRecords allow you to get related records including parent and child SObjects. Self => Parent, Self => Child, and Child => Parent are supported.
 
@@ -124,7 +124,7 @@ List<SObject> records = accountDynamicDao.getSObjectRecords(soqlQUeryClause);
 
 ## ObjectInfo class
 
-An Example of getting the fullName and label of Account object.
+An example of getting the fullName and label of Account object.
 
 ```apex
 ObjectInfo objectInfo = new ObjectInfo(Account.class);
@@ -132,7 +132,7 @@ String objectFullName = objectInfo.getFullName();
 String objectLabel = objectInfo.getLabel();
 ```
 
-An Example of getting the fullName and label of all fields on Account object.
+An example of getting the fullName and label of all fields on Account object.
 
 ```apex
 ObjectInfo objectInfo = new ObjectInfo(Account.class);
@@ -140,7 +140,7 @@ List<String> fieldFullNames = objectInfo.field.getFullNames();
 Map<Schema.SObjectField, String> fieldLabels = objectInfo.field.getLabels();
 ```
 
-An Example of getting the further metadata of fields on Account object, e.g., type, length, scale, precision, ....
+An example of getting the further metadata of fields on Account object, e.g., type, length, scale, precision, ....
 
 ```apex
 Map<Schema.SObjectField, String> types = objectInfo.field.getTypes();
@@ -173,7 +173,7 @@ Map<String, ObjectInfo> childObjectInfos = objectRelation.getChildObjectInfos();
 
 ## ObjectPermission class
 
-An Example of getting permissions on Account object.
+An example of getting permissions on Account object.
 
 ```apex
  ObjectPermission objectPermission = new ObjectPermission(Account.class);
@@ -184,7 +184,7 @@ Boolean isUpsertable = objectPermission.isUpsertable();
 Boolean isDeletable = objectPermission.isDeletable();
 ```
 
-An Example of getting all field permissions on Account object.
+An example of getting all field permissions on Account object.
 
 ```apex
 ObjectPermission objectPermission = new ObjectPermission(Account.class);
