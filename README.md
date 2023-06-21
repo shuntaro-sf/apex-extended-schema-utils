@@ -4,15 +4,23 @@
 
 ## DynamicDao class
 
-###
+### DynamicDao
 
-###
+Constructor providing object type.
 
-###
+#### Signature
 
-###
+`public DynamicDao(System.Type sObjectType)`
 
-### getSelfSObjectRecords(soqlQueryClause)
+#### Parameters
+
+#### sObjectType
+
+`System.Type`
+
+sObjectType SObject type.
+
+### getSelfSObjectRecords
 
 Gets the records of sObjectType.
 
@@ -24,15 +32,17 @@ Gets the records of sObjectType.
 
 #### soqlQueryClause
 
-Type: `SoqlQueryClause`
+`SoqlQueryClause`
 
-SoqlQueryClause object to be converted to a soql query string when extracting records.
+soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
 
-#### Return Value
+Return Value
 
-Type: `List<SObject>`
+`List<SObject>`
 
-### getSelfSObjectRecords(fieldFullNames)
+### getSelfSObjectRecords
+
+Gets the records of sObjectType.
 
 #### Signature
 
@@ -42,15 +52,17 @@ Type: `List<SObject>`
 
 #### fieldFullNames
 
-Type: `List<String>`
+`List<String>`
 
-Fiedl fullNames of records to extract.
+fieldFullNames List of Field API Names
 
-#### Return Value
+Return Value
 
-Type: `List<String>`
+`List<SObject>`
 
-### getSObjectRecordsOfParent(soqlQueryClause)
+### getSObjectRecordsOfParent
+
+Gets the parent-records of sObjectType.
 
 #### Signature
 
@@ -60,13 +72,165 @@ Type: `List<String>`
 
 #### soqlQueryClause
 
-Type: `SoqlQueryClause`
+`SoqlQueryClause`
 
-SoqlQueryClause object to be converted to a soql query string when extracting parent records.
+soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
 
-#### Return Value
+Return Value
 
-Type: `List<String>`
+`List<SObject>`
+
+### getSObjectRecordsOfParent
+
+Gets the parent-records of sObjectType.
+
+#### Signature
+
+`public List<SObject> getSObjectRecordsOfParent(String parentRelationName, List<String> parentFieldFullNames)`
+
+#### Parameters
+
+#### parentRelationName
+
+`String`
+
+parentRelationName Parent relation name.
+
+#### Parameters
+
+#### parentFieldFullNames
+
+`List<String>`
+
+parentRelationName Parent relation name.
+
+Return Value
+
+`List<SObject>`
+
+### getSObjectRecordsInChild
+
+Gets the child-records of sObjectType.
+
+#### Signature
+
+`public List<SObject> getSObjectRecordsInChild(SoqlQueryClause soqlQueryClause)`
+
+#### Parameters
+
+#### soqlQueryClause
+
+`SoqlQueryClause`
+
+soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
+
+Return Value
+
+`List<SObject>`
+
+### getSObjectRecordsInChild
+
+Gets the child-records of sObjectType.
+
+#### Signature
+
+`public List<SObject> getSObjectRecordsInChild(String childRelationName, List<String> childFieldFullNames)`
+
+#### Parameters
+
+#### childRelationName
+
+`String`
+
+childRelationName Relation name of child-object. Example: Accounts, CustomObj\_\_r.
+
+#### Parameters
+
+#### childFieldFullNames
+
+`List<String>`
+
+childRelationName Relation name of child-object. Example: Accounts, CustomObj\_\_r.
+
+Return Value
+
+`List<SObject>`
+
+### getSObjectRecords
+
+Gets the records of sObjectType.
+
+#### Signature
+
+`public List<SObject> getSObjectRecords(SoqlQueryClause soqlQueryClause)`
+
+#### Parameters
+
+#### soqlQueryClause
+
+`SoqlQueryClause`
+
+soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
+
+Return Value
+
+`List<SObject>`
+
+### countSObjectRecords
+
+Counts the number of records of sObjectType.
+
+#### Signature
+
+`public List<AggregateResult> countSObjectRecords(SoqlQueryClause soqlQueryClause)`
+
+#### Parameters
+
+#### soqlQueryClause
+
+`SoqlQueryClause`
+
+soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
+
+Return Value
+
+`List<AggregateResult>`
+
+### countSObjectRecords
+
+Counts the number of records of sObjectType
+
+#### Signature
+
+`public List<AggregateResult> countSObjectRecords(String groupClause)`
+
+#### Parameters
+
+#### groupClause
+
+`String`
+
+groupClause Group clause for SOQL query.
+
+Return Value
+
+`List<AggregateResult>`
+
+### getSoqlQuery
+
+#### Signature
+
+`public String getSoqlQuery(SoqlQueryClause soqlQueryClause)`
+
+#### Parameters
+
+#### soqlQueryClause
+
+`SoqlQueryClause`
+
+Return Value
+
+`String`
 
 ## ObjectInfo class
 

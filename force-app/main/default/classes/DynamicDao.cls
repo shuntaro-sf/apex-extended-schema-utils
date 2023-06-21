@@ -28,7 +28,7 @@ public inherited sharing class DynamicDao {
 
   /**
    * @description Gets the records of sObjectType.
-   * @param soqlQueryClause SoqlQueryClause object reference.
+   * @param soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
    * @return List of sObjectType class.
    * @example
    */
@@ -56,7 +56,7 @@ public inherited sharing class DynamicDao {
 
   /**
    * @description Gets the parent-records of sObjectType.
-   * @param soqlQueryClause SoqlQueryClause object referenece.
+   * @param soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
    * @return List of sObjectType's parent-object class.
    * @example
    */
@@ -95,7 +95,7 @@ public inherited sharing class DynamicDao {
 
   /**
    * @description Gets the child-records of sObjectType.
-   * @param soqlQueryClause SoqlQueryClause object referenece.
+   * @param soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
    * @return List of sObjectTypes's child-object class.
    * @example
    */
@@ -131,7 +131,7 @@ public inherited sharing class DynamicDao {
 
   /**
    * @description Gets the records of sObjectType.
-   * @param soqlQueryClause SoqlQueryClause object reference.
+   * @param soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
    * @return List of sObjectType class.
    * @example
    */
@@ -143,7 +143,7 @@ public inherited sharing class DynamicDao {
     return recordList;
   }
 
-  public void collectParentFieldSoqlQuery(
+  private void collectParentFieldSoqlQuery(
     SoqlQueryClause soqlQueryClause,
     List<String> fieldFullNamesForQuery,
     String relationStr
@@ -163,7 +163,7 @@ public inherited sharing class DynamicDao {
     }
   }
 
-  public String getAllRelatedSoqlQuery(SoqlQueryClause soqlQueryClause, Boolean isFirstRecurence) {
+  private String getAllRelatedSoqlQuery(SoqlQueryClause soqlQueryClause, Boolean isFirstRecurence) {
     if (soqlQueryClause.childSoqlQueryClauses != null) {
       for (Integer index = 0; index < soqlQueryClause.childSoqlQueryClauses.size(); index++) {
         String childSubQueryStr = getSoqlQuery(soqlQueryClause.childSoqlQueryClauses[index], true);
@@ -192,7 +192,7 @@ public inherited sharing class DynamicDao {
 
   /**
    * @description Counts the number of records of sObjectType.
-   * @param soqlQueryClause SoqlQueryClause object reference.
+   * @param soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
    * @return List of AggregateResult class.
    * @example
    */
