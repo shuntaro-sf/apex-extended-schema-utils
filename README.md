@@ -9,42 +9,20 @@
 Constructor providing object type.
 
 ```apex
+SIGNATURE
 
-Signature
+public DynamicDao(System.Type sObjectType)public DynamicDao(System.Type sObjectType)
 
-public DynamicDao(System.Type sObjectType)
+  PARAMETERS
 
-Parameters
+    sObjectType
 
-sObjectType
+    sObjectType SObject type.
 
-  Type: System.Type
+    System.Type
 
-  sObjectType SObject type.
+RETURN VALUE
 
-```
-
-### getSelfSObjectRecords
-
-Gets the records of sObjectType.
-
-```
-
-Signature
-
-public List<SObject> getSelfSObjectRecords(SoqlQueryClause soqlQueryClause)
-
-Parameters
-
-soqlQueryClause
-
-  Type: SoqlQueryClause
-
-  soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
-
-Return Value
-
-  List<SObject>
 
 ```
 
@@ -52,230 +30,230 @@ Return Value
 
 Gets the records of sObjectType.
 
-```
+```apex
+SIGNATURE
 
-Signature
+public List<SObject> getSelfSObjectRecords(SoqlQueryClause soqlQueryClause)public List<SObject> getSelfSObjectRecords(SoqlQueryClause soqlQueryClause)
 
-public List<SObject> getSelfSObjectRecords(List<String> fieldFullNames)
+  PARAMETERS
 
-Parameters
+    soqlQueryClause
 
-fieldFullNames
+    soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
 
-  Type: List<String>
+    SoqlQueryClause
 
-  fieldFullNames List of Field API Names
-
-Return Value
+RETURN VALUE
 
   List<SObject>
+```
 
+### getSelfSObjectRecords
+
+Gets the records of sObjectType.
+
+```apex
+SIGNATURE
+
+public List<SObject> getSelfSObjectRecords(List<String> fieldFullNames)public List<SObject> getSelfSObjectRecords(List<String> fieldFullNames)
+
+  PARAMETERS
+
+    fieldFullNames
+
+    fieldFullNames List of Field API Names
+
+    List<String>
+
+RETURN VALUE
+
+  List<SObject>
 ```
 
 ### getSObjectRecordsOfParent
 
 Gets the parent-records of sObjectType.
 
-```
+```apex
+SIGNATURE
 
-Signature
+public List<SObject> getSObjectRecordsOfParent(SoqlQueryClause soqlQueryClause)public List<SObject> getSObjectRecordsOfParent(SoqlQueryClause soqlQueryClause)
 
-public List<SObject> getSObjectRecordsOfParent(SoqlQueryClause soqlQueryClause)
+  PARAMETERS
 
-Parameters
+    soqlQueryClause
 
-soqlQueryClause
+    soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
 
-  Type: SoqlQueryClause
+    SoqlQueryClause
 
-  soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
-
-Return Value
+RETURN VALUE
 
   List<SObject>
-
 ```
 
 ### getSObjectRecordsOfParent
 
 Gets the parent-records of sObjectType.
 
-```
+```apex
+SIGNATURE
 
-Signature
+public List<SObject> getSObjectRecordsOfParent(String parentRelationName, List<String> parentFieldFullNames)public List<SObject> getSObjectRecordsOfParent(String parentRelationName, List<String> parentFieldFullNames)
 
-public List<SObject> getSObjectRecordsOfParent(String parentRelationName, List<String> parentFieldFullNames)
+  PARAMETERS
 
-Parameters
+    parentRelationName
 
-parentRelationName
+    parentRelationName Parent relation name.
 
-  Type: String
+    String  PARAMETERS
 
-  parentRelationName Parent relation name.
+    parentFieldFullNames
 
-Parameters
+    parentRelationName Parent relation name.
 
-parentFieldFullNames
+    List<String>
 
-  Type: List<String>
-
-  parentRelationName Parent relation name.
-
-Return Value
+RETURN VALUE
 
   List<SObject>
-
 ```
 
 ### getSObjectRecordsInChild
 
 Gets the child-records of sObjectType.
 
-```
+```apex
+SIGNATURE
 
-Signature
+public List<SObject> getSObjectRecordsInChild(SoqlQueryClause soqlQueryClause)public List<SObject> getSObjectRecordsInChild(SoqlQueryClause soqlQueryClause)
 
-public List<SObject> getSObjectRecordsInChild(SoqlQueryClause soqlQueryClause)
+  PARAMETERS
 
-Parameters
+    soqlQueryClause
 
-soqlQueryClause
+    soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
 
-  Type: SoqlQueryClause
+    SoqlQueryClause
 
-  soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
-
-Return Value
+RETURN VALUE
 
   List<SObject>
-
 ```
 
 ### getSObjectRecordsInChild
 
 Gets the child-records of sObjectType.
 
-```
+```apex
+SIGNATURE
 
-Signature
+public List<SObject> getSObjectRecordsInChild(String childRelationName, List<String> childFieldFullNames)public List<SObject> getSObjectRecordsInChild(String childRelationName, List<String> childFieldFullNames)
 
-public List<SObject> getSObjectRecordsInChild(String childRelationName, List<String> childFieldFullNames)
+  PARAMETERS
 
-Parameters
+    childRelationName
 
-childRelationName
+    childRelationName Relation name of child-object. Example: Accounts, CustomObj__r.
 
-  Type: String
+    String  PARAMETERS
 
-  childRelationName Relation name of child-object. Example: Accounts, CustomObj__r.
+    childFieldFullNames
 
-Parameters
+    childRelationName Relation name of child-object. Example: Accounts, CustomObj__r.
 
-childFieldFullNames
+    List<String>
 
-  Type: List<String>
-
-  childRelationName Relation name of child-object. Example: Accounts, CustomObj__r.
-
-Return Value
+RETURN VALUE
 
   List<SObject>
-
 ```
 
 ### getSObjectRecords
 
 Gets the records of sObjectType.
 
-```
+```apex
+SIGNATURE
 
-Signature
+public List<SObject> getSObjectRecords(SoqlQueryClause soqlQueryClause)public List<SObject> getSObjectRecords(SoqlQueryClause soqlQueryClause)
 
-public List<SObject> getSObjectRecords(SoqlQueryClause soqlQueryClause)
+  PARAMETERS
 
-Parameters
+    soqlQueryClause
 
-soqlQueryClause
+    soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
 
-  Type: SoqlQueryClause
+    SoqlQueryClause
 
-  soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
-
-Return Value
+RETURN VALUE
 
   List<SObject>
-
 ```
 
 ### countSObjectRecords
 
 Counts the number of records of sObjectType.
 
-```
+```apex
+SIGNATURE
 
-Signature
+public List<AggregateResult> countSObjectRecords(SoqlQueryClause soqlQueryClause)public List<AggregateResult> countSObjectRecords(SoqlQueryClause soqlQueryClause)
 
-public List<AggregateResult> countSObjectRecords(SoqlQueryClause soqlQueryClause)
+  PARAMETERS
 
-Parameters
+    soqlQueryClause
 
-soqlQueryClause
+    soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
 
-  Type: SoqlQueryClause
+    SoqlQueryClause
 
-  soqlQueryClause SoqlQueryClause object to be converted to a soql query string when extracting records.
-
-Return Value
+RETURN VALUE
 
   List<AggregateResult>
-
 ```
 
 ### countSObjectRecords
 
 Counts the number of records of sObjectType
 
-```
+```apex
+SIGNATURE
 
-Signature
+public List<AggregateResult> countSObjectRecords(String groupClause)public List<AggregateResult> countSObjectRecords(String groupClause)
 
-public List<AggregateResult> countSObjectRecords(String groupClause)
+  PARAMETERS
 
-Parameters
+    groupClause
 
-groupClause
+    groupClause Group clause for SOQL query.
 
-  Type: String
+    String
 
-  groupClause Group clause for SOQL query.
-
-Return Value
+RETURN VALUE
 
   List<AggregateResult>
-
 ```
 
 ### getSoqlQuery
 
-```
+```apex
+SIGNATURE
 
-Signature
+public String getSoqlQuery(SoqlQueryClause soqlQueryClause)public String getSoqlQuery(SoqlQueryClause soqlQueryClause)
 
-public String getSoqlQuery(SoqlQueryClause soqlQueryClause)
+  PARAMETERS
 
-Parameters
-
-soqlQueryClause
-
-  Type: SoqlQueryClause
+    soqlQueryClause
 
 
 
-Return Value
+    SoqlQueryClause
+
+RETURN VALUE
 
   String
-
 ```
 
 ## ObjectInfo class
