@@ -56,6 +56,18 @@ public with sharing class ObjectInfo {
     Boolean isSearchable = schemaSObjectType.getDescribe().isSearchable();
     return isSearchable;
   }
+
+  /**
+   * @description Gets record type.
+   * @return  Record type.
+   * @example
+   */
+  public List<Schema.RecordTypeInfo> getRecordType() {
+    Schema.SObjectType schemaSObjectType = Schema.getGlobalDescribe().get(sObjectType.toString());
+    List<Schema.RecordTypeInfo> recordType = schemaSObjectType.getDescribe().getRecordTypeInfos();
+    return recordType;
+  }
+
   /**
    * @description Instantiates ObjectRelation object.
    * @return  ObjectRelation object.

@@ -11,6 +11,16 @@ public without sharing class ObjectInfoTest {
   }
 
   @isTest
+  private static void testGetObjectDetails() {
+    ObjectInfo objectInfo = new ObjectInfo(Account.class);
+    Boolean isFeedEnabled = objectInfo.isFeedEnabled();
+    Boolean isSearchable = objectInfo.isSearchable();
+
+    System.assertEquals(true, isFeedEnabled, 'Object feed enability is wrong.');
+    System.assertEquals(true, isSearchable, 'Object searchability is wrong.');
+  }
+
+  @isTest
   private static void testGetFieldInfos() {
     ObjectInfo objectInfo = new ObjectInfo(Account.class);
     List<String> fieldFullNames = objectInfo.field.getFullNames();

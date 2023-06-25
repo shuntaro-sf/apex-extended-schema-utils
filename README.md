@@ -3,6 +3,7 @@
 # Usage
 
 <usage>
+
 ## DynamicSoql
 
 ### DynamicSoql
