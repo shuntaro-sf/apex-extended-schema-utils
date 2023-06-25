@@ -1,4 +1,4 @@
-public inherited sharing class DynamicDao {
+public inherited sharing class DynamicSoql {
   private System.Type sObjectType;
 
   private static final String SELECT_STRING = 'SELECT ';
@@ -19,9 +19,9 @@ public inherited sharing class DynamicDao {
    * @description Constructor providing object type.
    * @param sObjectType SObject type.
    */
-  public DynamicDao(System.Type sObjectType) {
+  public DynamicSoql(System.Type sObjectType) {
     if (Schema.getGlobalDescribe().get(sObjectType.toString()) == null) {
-      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoNotFoundSObject'));
+      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('DynamicSoqlNotFoundSObject'));
     }
     this.sObjectType = sObjectType;
   }
@@ -273,18 +273,18 @@ public inherited sharing class DynamicDao {
 
   private void validatesSoqlClaseForSelfDml(SoqlQueryClause soqlQueryClause) {
     if (soqlQueryClause.fieldFullNames == null || soqlQueryClause.fieldFullNames.size() == 0) {
-      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyFieldFullNames'));
+      throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('DynamicSoqlEmptyFieldFullNames'));
     }
   }
 
   private void validatesSoqlClauseForParentDml(SoqlQueryClause soqlQueryClause) {
     for (SoqlQueryClause parentSoqlQueryClause : soqlQueryClause.parentSoqlQueryClauses) {
       if (parentSoqlQueryClause.parentRelationName == null) {
-        throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoNullParentRelationName'));
+        throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('DynamicSoqlNullParentRelationName'));
       }
       if (parentSoqlQueryClause.fieldFullNames == null || parentSoqlQueryClause.fieldFullNames.size() == 0) {
         throw new ExceptionMessage.CustomException(
-          ExceptionMessage.MESSAGES.get('dynamicDaoEmptyParentFieldFullNames')
+          ExceptionMessage.MESSAGES.get('DynamicSoqlEmptyParentFieldFullNames')
         );
       }
     }
@@ -293,10 +293,12 @@ public inherited sharing class DynamicDao {
   private void validatesSoqlClauseForChildDml(SoqlQueryClause soqlQueryClause) {
     for (SoqlQueryClause childSoqlQueryClause : soqlQueryClause.childSoqlQueryClauses) {
       if (childSoqlQueryClause.childRelationName == null) {
-        throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoNullChildRelationName'));
+        throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('DynamicSoqlNullChildRelationName'));
       }
       if (childSoqlQueryClause.fieldFullNames == null || childSoqlQueryClause.fieldFullNames.size() == 0) {
-        throw new ExceptionMessage.CustomException(ExceptionMessage.MESSAGES.get('dynamicDaoEmptyChildFieldFullNames'));
+        throw new ExceptionMessage.CustomException(
+          ExceptionMessage.MESSAGES.get('DynamicSoqlEmptyChildFieldFullNames')
+        );
       }
     }
   }

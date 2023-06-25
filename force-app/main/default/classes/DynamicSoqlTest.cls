@@ -1,5 +1,5 @@
 @isTest(SeeAllData=false)
-public with sharing class DynamicDaoTest {
+public with sharing class DynamicSoqlTest {
   @isTest
   private static void testGetSelfSObjectRecords() {
     List<Account> accounts = new List<Account>();
@@ -12,7 +12,7 @@ public with sharing class DynamicDaoTest {
     }
     insert accounts;
 
-    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    DynamicSoql accountDynamicSoql = new DynamicSoql(Account.class);
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource', 'Type' };
     soqlQueryClause.whereClause = 'Id != null';
@@ -22,7 +22,7 @@ public with sharing class DynamicDaoTest {
     soqlQUeryClause.offsetClause = 5;
     soqlQUeryClause.isForView = true;
 
-    List<SObject> records = accountDynamicDao.getSelfSObjectRecords(soqlQueryClause);
+    List<SObject> records = accountDynamicSoql.getSelfSObjectRecords(soqlQueryClause);
     System.assertEquals(accounts.size() - soqlQUeryClause.offsetClause, records.size(), 'Failed to get records.');
   }
 
@@ -38,10 +38,10 @@ public with sharing class DynamicDaoTest {
     }
     insert accounts;
 
-    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    DynamicSoql accountDynamicSoql = new DynamicSoql(Account.class);
     List<String> fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource', 'Type' };
 
-    List<SObject> records = accountDynamicDao.getSelfSObjectRecords(fieldFullNames);
+    List<SObject> records = accountDynamicSoql.getSelfSObjectRecords(fieldFullNames);
     System.assertEquals(accounts.size(), records.size(), 'Failed to get records.');
   }
 
@@ -62,7 +62,7 @@ public with sharing class DynamicDaoTest {
     }
     insert contacts;
 
-    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    DynamicSoql accountDynamicSoql = new DynamicSoql(Account.class);
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource', 'Type' };
     soqlQueryClause.whereClause = 'Id != null';
@@ -77,7 +77,7 @@ public with sharing class DynamicDaoTest {
     childSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'LastName', 'AccountId' };
     soqlQUeryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{ childSoqlQueryClause };
 
-    List<SObject> records = accountDynamicDao.getSObjectRecordsInChild(soqlQUeryClause);
+    List<SObject> records = accountDynamicSoql.getSObjectRecordsInChild(soqlQUeryClause);
 
     for (Account record : (List<Account>) records) {
       for (Contact childRecord : record.Contacts) {
@@ -103,11 +103,11 @@ public with sharing class DynamicDaoTest {
     }
     insert contacts;
 
-    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    DynamicSoql accountDynamicSoql = new DynamicSoql(Account.class);
     String childRelationName = 'Contacts';
     List<String> fieldFullNames = new List<String>{ 'Id', 'LastName', 'AccountId' };
 
-    List<SObject> records = accountDynamicDao.getSObjectRecordsInChild(childRelationName, fieldFullNames);
+    List<SObject> records = accountDynamicSoql.getSObjectRecordsInChild(childRelationName, fieldFullNames);
 
     for (Account record : (List<Account>) records) {
       for (Contact childRecord : record.Contacts) {
@@ -133,7 +133,7 @@ public with sharing class DynamicDaoTest {
     }
     insert contacts;
 
-    DynamicDao contactDynamicDao = new DynamicDao(Contact.class);
+    DynamicSoql contactDynamicSoql = new DynamicSoql(Contact.class);
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'LastName' };
     soqlQueryClause.whereClause = 'Id != null';
@@ -148,7 +148,7 @@ public with sharing class DynamicDaoTest {
     parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource' };
     soqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
 
-    List<SObject> records = contactDynamicDao.getSObjectRecordsOfParent(soqlQUeryClause);
+    List<SObject> records = contactDynamicSoql.getSObjectRecordsOfParent(soqlQUeryClause);
 
     for (Contact record : (List<Contact>) records) {
       System.assertEquals(acc.Id, record.Account.Id, 'Failed to get parent-records.');
@@ -172,10 +172,10 @@ public with sharing class DynamicDaoTest {
     }
     insert contacts;
 
-    DynamicDao contactDynamicDao = new DynamicDao(Contact.class);
+    DynamicSoql contactDynamicSoql = new DynamicSoql(Contact.class);
     String parentRelationName = 'Account';
     List<String> fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource' };
-    List<SObject> records = contactDynamicDao.getSObjectRecordsOfParent(parentRelationName, fieldFullNames);
+    List<SObject> records = contactDynamicSoql.getSObjectRecordsOfParent(parentRelationName, fieldFullNames);
 
     for (Contact record : (List<Contact>) records) {
       System.assertEquals(acc.Id, record.Account.Id, 'Failed to get parent-records.');
@@ -210,7 +210,7 @@ public with sharing class DynamicDaoTest {
     }
     insert opportunities;
 
-    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    DynamicSoql accountDynamicSoql = new DynamicSoql(Account.class);
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name' };
     soqlQueryClause.whereClause = 'Id != null';
@@ -238,7 +238,7 @@ public with sharing class DynamicDaoTest {
       secondChildSoqlQueryClause
     };
 
-    List<SObject> records = accountDynamicDao.getSObjectRecords(soqlQUeryClause);
+    List<SObject> records = accountDynamicSoql.getSObjectRecords(soqlQUeryClause);
 
     for (Account record : (List<Account>) records) {
       System.assertEquals(acc.Id, record.Id, 'Failed to get parent-records.');
@@ -257,14 +257,14 @@ public with sharing class DynamicDaoTest {
     }
     insert accounts;
 
-    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    DynamicSoql accountDynamicSoql = new DynamicSoql(Account.class);
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.fieldFullNames = new List<String>{ 'AccountSource' };
     soqlQueryClause.whereClause = 'Id != null';
     soqlQueryClause.countClause = 'Id';
     soqlQueryClause.groupClause = 'AccountSource';
 
-    List<AggregateResult> numberOfRecords = accountDynamicDao.countSObjectRecords(soqlQueryClause);
+    List<AggregateResult> numberOfRecords = accountDynamicSoql.countSObjectRecords(soqlQueryClause);
     for (AggregateResult aggregateResult : numberOfRecords) {
       System.assertEquals(aggregateResult.get('expr0'), accounts.size(), 'Failed to count the number of records.');
     }
@@ -282,10 +282,10 @@ public with sharing class DynamicDaoTest {
     }
     insert accounts;
 
-    DynamicDao accountDynamicDao = new DynamicDao(Account.class);
+    DynamicSoql accountDynamicSoql = new DynamicSoql(Account.class);
     String groupClause = 'AccountSource';
 
-    List<AggregateResult> numberOfRecords = accountDynamicDao.countSObjectRecords(groupClause);
+    List<AggregateResult> numberOfRecords = accountDynamicSoql.countSObjectRecords(groupClause);
     for (AggregateResult aggregateResult : numberOfRecords) {
       System.assertEquals(aggregateResult.get('expr0'), accounts.size(), 'Failed to count the number of records.');
     }

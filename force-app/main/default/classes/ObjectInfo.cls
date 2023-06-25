@@ -14,15 +14,47 @@ public with sharing class ObjectInfo {
     this.field = new Field(this);
   }
 
+  /**
+   * @description Gets object fullName.
+   * @return Object fullName.
+   * @example
+   */
   public String getFullName() {
     String objectFullName = sObjectType.toString();
     return objectFullName;
   }
 
+  /**
+   * @description Gets object label.
+   * @return Object label.
+   * @example
+   */
   public String getLabel() {
     Schema.SObjectType schemaSObjectType = Schema.getGlobalDescribe().get(sObjectType.toString());
     String objectLabel = schemaSObjectType.getDescribe().getLabel();
     return objectLabel;
+  }
+
+  /**
+   * @description Whether the feed is enabled.
+   * @return Boolean value that represents whether the feed is enabled.
+   * @example
+   */
+  public Boolean isFeedEnabled() {
+    Schema.SObjectType schemaSObjectType = Schema.getGlobalDescribe().get(sObjectType.toString());
+    Boolean isFeedEnabled = schemaSObjectType.getDescribe().isFeedEnabled();
+    return isFeedEnabled;
+  }
+
+  /**
+   * @description Whether it is searchable.
+   * @return Boolean value that represents whether tt is searchable.
+   * @example
+   */
+  public Boolean isSearchable() {
+    Schema.SObjectType schemaSObjectType = Schema.getGlobalDescribe().get(sObjectType.toString());
+    Boolean isSearchable = schemaSObjectType.getDescribe().isSearchable();
+    return isSearchable;
   }
   /**
    * @description Instantiates ObjectRelation object.
@@ -84,6 +116,11 @@ public with sharing class ObjectInfo {
       return pickListValues;
     }
 
+    /**
+     * @description Gets field digits.
+     * @return Map of the digits of fields for each of Scema.SObjectField objects.
+     * @example
+     */
     public Map<Schema.SObjectField, Integer> getDigits() {
       Map<Schema.SObjectField, Integer> digits = new Map<Schema.SObjectField, Integer>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
@@ -97,6 +134,11 @@ public with sharing class ObjectInfo {
       return digits;
     }
 
+    /**
+     * @description Gets field lengths.
+     * @return Map of the length of fields for each of Scema.SObjectField objects.
+     * @example
+     */
     public Map<Schema.SObjectField, Integer> getLengths() {
       Map<Schema.SObjectField, Integer> lengths = new Map<Schema.SObjectField, Integer>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
@@ -110,6 +152,11 @@ public with sharing class ObjectInfo {
       return lengths;
     }
 
+    /**
+     * @description Gets field precisions.
+     * @return Map of the precisions of fields for each of Scema.SObjectField objects.
+     * @example
+     */
     public Map<Schema.SObjectField, Integer> getPrecisions() {
       Map<Schema.SObjectField, Integer> precisions = new Map<Schema.SObjectField, Integer>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
@@ -123,6 +170,11 @@ public with sharing class ObjectInfo {
       return precisions;
     }
 
+    /**
+     * @description Gets field data types.
+     * @return Map of the scales of fields for each of Scema.SObjectField objects.
+     * @example
+     */
     public Map<Schema.SObjectField, Integer> getScales() {
       Map<Schema.SObjectField, Integer> scales = new Map<Schema.SObjectField, Integer>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
@@ -136,6 +188,11 @@ public with sharing class ObjectInfo {
       return scales;
     }
 
+    /**
+     * @description Gets field references to parent objects.
+     * @return Map of the references to parent objects for each of Scema.SObjectField objects.
+     * @example
+     */
     public Map<Schema.SObjectField, List<Schema.SObjectType>> getReferencesTo() {
       Map<Schema.SObjectField, List<Schema.SObjectType>> referencesTo = new Map<Schema.SObjectField, List<Schema.SObjectType>>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
@@ -149,6 +206,11 @@ public with sharing class ObjectInfo {
       return referencesTo;
     }
 
+    /**
+     * @description Whether fields are external ID.
+     * @return Map of Boolean values that represents whether they are external ID for each of Scema.SObjectField objects.
+     * @example
+     */
     public Map<Schema.SObjectField, Boolean> isExternalId() {
       Map<Schema.SObjectField, Boolean> isExternalId = new Map<Schema.SObjectField, Boolean>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
@@ -158,6 +220,11 @@ public with sharing class ObjectInfo {
       return isExternalId;
     }
 
+    /**
+     * @description Whether fields are required.
+     * @return Map of Boolean values that represents whether they are required for each of Scema.SObjectField objects.
+     * @example
+     */
     public Map<Schema.SObjectField, Boolean> isRequired() {
       Map<Schema.SObjectField, Boolean> isRequired = new Map<Schema.SObjectField, Boolean>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
@@ -167,6 +234,11 @@ public with sharing class ObjectInfo {
       return isRequired;
     }
 
+    /**
+     * @description Whether fields are unique.
+     * @return Map of Boolean values that represents whether they are unique for each of Scema.SObjectField objects.
+     * @example
+     */
     public Map<Schema.SObjectField, Boolean> isUnique() {
       Map<Schema.SObjectField, Boolean> isUnique = new Map<Schema.SObjectField, Boolean>();
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
