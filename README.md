@@ -4,13 +4,15 @@
 
 <usage>
 
-- [DynamicSoql](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/docs/DynamicSoql.md)
-- [ExceptionMessage](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/docs/ExceptionMessage.md)
-- [ObjectInfo](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/docs/ObjectInfo.md)
-- [ObjectPermission](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/docs/ObjectPermission.md)
-- [ObjectRecordType](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/docs/ObjectRecordType.md)
-- [ObjectRelation](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/docs/ObjectRelation.md)
-- [SoqlQueryClause](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/docs/SoqlQueryClause.md)
+- [DynamicSoql](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/DynamicSoql.md)
+- [ExceptionMessage](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ExceptionMessage.md)
+- [ObjectInfo](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectInfo.md)
+  - [Field](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectInfo.Field.md)
+- [ObjectPermission](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectPermission.md)
+  - [Field](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectPermission.Field.md)
+- [ObjectRecordType](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectRecordType.md)
+- [ObjectRelation](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectRelation.md)
+- [SoqlQueryClause](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/SoqlQueryClause.md)
 
 </usage>
 
