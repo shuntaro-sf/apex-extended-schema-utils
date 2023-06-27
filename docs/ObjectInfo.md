@@ -1,4 +1,4 @@
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/DynamicSoql
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)&frasl;DynamicSoql
 
 ## DynamicSoql
 
@@ -254,11 +254,11 @@ RETURN VALUE
   String
 ```
 
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ExceptionMessage
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)&frasl;ExceptionMessage
 
 ## ExceptionMessage
 
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ObjectInfo
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)&frasl;ObjectInfo
 
 ## ObjectInfo
 
@@ -380,7 +380,7 @@ RETURN VALUE
   ObjectRelation
 ```
 
-[[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ObjectInfo](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/ObjectInfo.md)/Field
+[[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)&frasl;ObjectInfo](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/ObjectInfo.md)&frasl;Field
 
 ### Field
 
