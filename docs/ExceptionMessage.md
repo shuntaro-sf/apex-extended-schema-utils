@@ -1,4 +1,4 @@
-[README](https:\github.com\shuntaro-sfdx\apex-extended-schema-utils\blob\1.0.0\README.md)/DynamicSoql
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/1.0.0/README.md/DynamicSoql)
 
 ## DynamicSoql
 
@@ -254,6 +254,6 @@ RETURN VALUE
   String
 ```
 
-[README](https:\github.com\shuntaro-sfdx\apex-extended-schema-utils\blob\1.0.0\README.md)/ExceptionMessage
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/1.0.0/README.md/ExceptionMessage)
 
 ## ExceptionMessage

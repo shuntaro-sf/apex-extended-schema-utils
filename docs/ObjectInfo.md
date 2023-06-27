@@ -1,4 +1,4 @@
-[README](https:\github.com\shuntaro-sfdx\apex-extended-schema-utils\blob\1.0.0\README.md)/DynamicSoql
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/1.0.0/README.md/DynamicSoql)
 
 ## DynamicSoql
 
@@ -254,11 +254,11 @@ RETURN VALUE
   String
 ```
 
-[README](https:\github.com\shuntaro-sfdx\apex-extended-schema-utils\blob\1.0.0\README.md)/ExceptionMessage
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/1.0.0/README.md/ExceptionMessage)
 
 ## ExceptionMessage
 
-[README](https:\github.com\shuntaro-sfdx\apex-extended-schema-utils\blob\1.0.0\README.md)/ObjectInfo
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/1.0.0/README.md/ObjectInfo)
 
 ## ObjectInfo
 
@@ -380,7 +380,13 @@ RETURN VALUE
   ObjectRelation
 ```
 
+[[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/1.0.0/README.md/ObjectInfo)](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/1.0.0/ObjectInfo.md/Field)
+
 ### Field
+
+Inner class for Field info.
+
+#### Field
 
 Inner class for Field info.
 
@@ -402,7 +408,7 @@ RETURN VALUE
 
 ```
 
-### getFullNames
+#### getFullNames
 
 ```apex
 SIGNATURE
@@ -416,7 +422,7 @@ RETURN VALUE
   List<String>
 ```
 
-### getLabels
+#### getLabels
 
 Gets field labels maped to Schema.SObjectField.
 
@@ -432,7 +438,7 @@ RETURN VALUE
   Map<Schema.SObjectField, String>
 ```
 
-### getTypes
+#### getTypes
 
 Gets field data types.
 
@@ -448,7 +454,7 @@ RETURN VALUE
   Map<Schema.SObjectField, String>
 ```
 
-### getDigits
+#### getDigits
 
 Gets field digits.
 
@@ -464,7 +470,7 @@ RETURN VALUE
   Map<Schema.SObjectField, Integer>
 ```
 
-### getLengths
+#### getLengths
 
 Gets field lengths.
 
@@ -480,7 +486,7 @@ RETURN VALUE
   Map<Schema.SObjectField, Integer>
 ```
 
-### getPrecisions
+#### getPrecisions
 
 Gets field precisions.
 
@@ -496,7 +502,7 @@ RETURN VALUE
   Map<Schema.SObjectField, Integer>
 ```
 
-### getScales
+#### getScales
 
 Gets field data types.
 
@@ -512,7 +518,7 @@ RETURN VALUE
   Map<Schema.SObjectField, Integer>
 ```
 
-### getReferencesTo
+#### getReferencesTo
 
 Gets field references to parent objects.
 
@@ -528,7 +534,7 @@ RETURN VALUE
   Map<Schema.SObjectField, List<Schema.SObjectType>>
 ```
 
-### isExternalId
+#### isExternalId
 
 Whether fields are external ID.
 
@@ -544,7 +550,7 @@ RETURN VALUE
   Map<Schema.SObjectField, Boolean>
 ```
 
-### isRequired
+#### isRequired
 
 Whether fields are required.
 
@@ -560,7 +566,7 @@ RETURN VALUE
   Map<Schema.SObjectField, Boolean>
 ```
 
-### isUnique
+#### isUnique
 
 Whether fields are unique.
 
@@ -576,7 +582,7 @@ RETURN VALUE
   Map<Schema.SObjectField, Boolean>
 ```
 
-### getPicklistLabels
+#### getPicklistLabels
 
 Gets picklist labels
 
