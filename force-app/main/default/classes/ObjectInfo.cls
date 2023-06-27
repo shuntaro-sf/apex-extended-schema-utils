@@ -58,16 +58,14 @@ public with sharing class ObjectInfo {
   }
 
   /**
-   * @description Gets record type.
-   * @return  Record type.
+   * @description Instantiates ObjectRecordType object.
+   * @return  ObjectRecordType object.
    * @example
    */
-  public List<Schema.RecordTypeInfo> getRecordType() {
-    Schema.SObjectType schemaSObjectType = Schema.getGlobalDescribe().get(sObjectType.toString());
-    List<Schema.RecordTypeInfo> recordType = schemaSObjectType.getDescribe().getRecordTypeInfos();
-    return recordType;
+  public ObjectRecordType instantiateRecordType() {
+    ObjectRecordType objectRecordType = new ObjectRecordType(sObjectType);
+    return objectRecordType;
   }
-
   /**
    * @description Instantiates ObjectRelation object.
    * @return  ObjectRelation object.

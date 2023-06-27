@@ -1,5 +1,5 @@
 @isTest(SeeAllData=false)
-public without sharing class ObjectPermissionTest {
+private without sharing class ObjectPermissionTest {
   @isTest
   private static void testGetObjectPermission() {
     ObjectPermission objectPermission = new ObjectPermission(Account.class);

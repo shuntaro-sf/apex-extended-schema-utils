@@ -1,5 +1,5 @@
 @isTest(SeeAllData=false)
-public with sharing class SoqlQueryClauseTest {
+private with sharing class SoqlQueryClauseTest {
   @isTest
   private static void testInstantiateSoqlQueryClause() {
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();

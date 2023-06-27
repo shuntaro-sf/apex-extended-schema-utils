@@ -1,5 +1,5 @@
 @isTest(SeeAllData=false)
-public without sharing class ExceptionMessageTest {
+private without sharing class ExceptionMessageTest {
   @isTest
   private static void testGetExceptionMessages() {
     Map<String, String> exceptionMessages = ExceptionMessage.MESSAGES;

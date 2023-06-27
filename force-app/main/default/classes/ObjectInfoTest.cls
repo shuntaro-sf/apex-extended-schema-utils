@@ -1,5 +1,5 @@
 @isTest(SeeAllData=false)
-public without sharing class ObjectInfoTest {
+private without sharing class ObjectInfoTest {
   @isTest
   private static void testGetObjectInfo() {
     ObjectInfo objectInfo = new ObjectInfo(Account.class);

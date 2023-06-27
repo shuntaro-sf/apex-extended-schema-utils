@@ -1,5 +1,5 @@
 @isTest(SeeAllData=false)
-public with sharing class DynamicSoqlTest {
+private with sharing class DynamicSoqlTest {
   @isTest
   private static void testGetSelfSObjectRecords() {
     List<Account> accounts = new List<Account>();

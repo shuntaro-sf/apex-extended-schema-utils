@@ -1,5 +1,5 @@
 @isTest(SeeAllData=false)
-public without sharing class ObjectRelationTest {
+private without sharing class ObjectRelationTest {
   @isTest
   private static void testGetParnetObjectInfos() {
     ObjectRelation objectRelation = new ObjectRelation(Contact.class);
