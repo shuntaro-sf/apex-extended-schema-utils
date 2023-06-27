@@ -1,4 +1,4 @@
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md/DynamicSoql)
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/DynamicSoql
 
 ## DynamicSoql
 
@@ -254,11 +254,11 @@ RETURN VALUE
   String
 ```
 
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md/ExceptionMessage)
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ExceptionMessage
 
 ## ExceptionMessage
 
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md/ObjectInfo)
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ObjectInfo
 
 ## ObjectInfo
 
@@ -380,7 +380,7 @@ RETURN VALUE
   ObjectRelation
 ```
 
-[[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md/ObjectInfo)](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/ObjectInfo.md/Field)
+[[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ObjectInfo](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/ObjectInfo.md)/Field
 
 ### Field
 
@@ -598,7 +598,7 @@ RETURN VALUE
   Map<Schema.SObjectField, Map<String, String>>
 ```
 
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md/ObjectPermission)
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ObjectPermission
 
 ## ObjectPermission
 
@@ -704,7 +704,7 @@ RETURN VALUE
   Boolean
 ```
 
-[[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md/ObjectPermission)](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/ObjectPermission.md/Field)
+[[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ObjectPermission](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/ObjectPermission.md)/Field
 
 ### Field
 
@@ -792,7 +792,7 @@ RETURN VALUE
   Map<Schema.SObjectField, Boolean>
 ```
 
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md/ObjectRecordType)
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ObjectRecordType
 
 ## ObjectRecordType
 
@@ -914,7 +914,7 @@ RETURN VALUE
   Map<String, Boolean>
 ```
 
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md/ObjectRelation)
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.0/README.md)/ObjectRelation
 
 ## ObjectRelation
 
