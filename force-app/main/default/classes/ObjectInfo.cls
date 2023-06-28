@@ -136,9 +136,6 @@ public with sharing class ObjectInfo {
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
       for (String fieldName : fieldMap.keySet()) {
         Integer eachDigits = fieldMap.get(fieldName).getDescribe().getDigits();
-        if (eachDigits == null) {
-          continue;
-        }
         digits.put(fieldMap.get(fieldName), eachDigits);
       }
       return digits;
@@ -154,9 +151,6 @@ public with sharing class ObjectInfo {
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
       for (String fieldName : fieldMap.keySet()) {
         Integer length = fieldMap.get(fieldName).getDescribe().getLength();
-        if (length == null) {
-          continue;
-        }
         lengths.put(fieldMap.get(fieldName), length);
       }
       return lengths;
@@ -172,9 +166,6 @@ public with sharing class ObjectInfo {
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
       for (String fieldName : fieldMap.keySet()) {
         Integer precision = fieldMap.get(fieldName).getDescribe().getPrecision();
-        if (precision == null) {
-          continue;
-        }
         precisions.put(fieldMap.get(fieldName), precision);
       }
       return precisions;
@@ -190,9 +181,6 @@ public with sharing class ObjectInfo {
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
       for (String fieldName : fieldMap.keySet()) {
         Integer scale = fieldMap.get(fieldName).getDescribe().getScale();
-        if (scale == null) {
-          continue;
-        }
         scales.put(fieldMap.get(fieldName), scale);
       }
       return scales;
@@ -268,9 +256,6 @@ public with sharing class ObjectInfo {
       Map<String, Schema.SObjectField> fieldMap = getFieldMap();
       for (String fieldName : fieldMap.keySet()) {
         List<Schema.PicklistEntry> pickListValues = getPicklistEntries(fieldMap.get(fieldName));
-        if (pickListValues == null) {
-          continue;
-        }
         Map<String, String> pickListLabelsForEachField = new Map<String, String>();
         for (Schema.PicklistEntry f : pickListValues) {
           pickListLabelsForEachField.put(f.getValue(), f.getLabel());

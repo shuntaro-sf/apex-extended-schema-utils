@@ -138,7 +138,8 @@ public inherited sharing class DynamicSoql {
   public List<SObject> getSObjectRecords(SoqlQueryClause soqlQueryClause) {
     List<SObject> recordList = new List<SObject>();
 
-    String queryStr = getAllRelatedSoqlQuery(soqlQueryClause, true);
+    String queryStr = getAllRelatedSoqlQuery(soqlQueryClause, 0);
+    System.debug(queryStr);
     recordList = Database.query(queryStr);
     return recordList;
   }
@@ -146,14 +147,16 @@ public inherited sharing class DynamicSoql {
   private void collectParentFieldSoqlQuery(
     SoqlQueryClause soqlQueryClause,
     List<String> fieldFullNamesForQuery,
-    String relationStr
+    String relationStr,
+    Integer levelOfRelation
   ) {
-    if (soqlQueryClause.parentSoqlQueryClauses != null) {
+    if (soqlQueryClause.parentSoqlQueryClauses != null && levelOfRelation < 2) {
       for (Integer index = 0; index < soqlQueryClause.parentSoqlQueryClauses.size(); index++) {
         collectParentFieldSoqlQuery(
           soqlQueryClause.parentSoqlQueryClauses[index],
           fieldFullNamesForQuery,
-          relationStr + soqlQueryClause.parentSoqlQueryClauses[index].parentRelationName + '.'
+          relationStr + soqlQueryClause.parentSoqlQueryClauses[index].parentRelationName + '.',
+          levelOfRelation + 1
         );
       }
     } else if (soqlQueryClause.parentRelationName != null) {
@@ -163,30 +166,27 @@ public inherited sharing class DynamicSoql {
     }
   }
 
-  private String getAllRelatedSoqlQuery(SoqlQueryClause soqlQueryClause, Boolean isFirstRecurence) {
-    if (soqlQueryClause.childSoqlQueryClauses != null) {
+  private String getAllRelatedSoqlQuery(SoqlQueryClause soqlQueryClause, Integer levelOfRelation) {
+    if (soqlQueryClause.childSoqlQueryClauses != null && levelOfRelation > -1) {
       for (Integer index = 0; index < soqlQueryClause.childSoqlQueryClauses.size(); index++) {
         String childSubQueryStr = getSoqlQuery(soqlQueryClause.childSoqlQueryClauses[index], true);
         if (soqlQueryClause.fieldFullNames == null) {
           soqlQueryClause.fieldFullNames = new List<String>();
         }
-        soqlQueryClause.fieldFullNames.add(getAllRelatedSoqlQuery(soqlQueryClause.childSoqlQueryClauses[index], false));
+        soqlQueryClause.fieldFullNames.add(
+          getAllRelatedSoqlQuery(soqlQueryClause.childSoqlQueryClauses[index], levelOfRelation - 1)
+        );
       }
       validatesSoqlClaseForSelfDml(soqlQueryClause);
-      if (isFirstRecurence) {
-        return getSoqlQuery(soqlQueryClause, false);
-      } else {
-        return getSoqlQuery(soqlQueryClause, true);
-      }
     } else {
       List<String> fieldFullNamesWithParent = soqlQueryClause.fieldFullNames.clone();
-      collectParentFieldSoqlQuery(soqlQueryClause, fieldFullNamesWithParent, '');
+      collectParentFieldSoqlQuery(soqlQueryClause, fieldFullNamesWithParent, '', levelOfRelation + 1);
       soqlQueryClause.fieldFullNames = fieldFullNamesWithParent;
-      if (isFirstRecurence) {
-        return getSoqlQuery(soqlQueryClause, false);
-      } else {
-        return getSoqlQuery(soqlQueryClause, true);
-      }
+    }
+    if (levelOfRelation == 0) {
+      return getSoqlQuery(soqlQueryClause, false);
+    } else {
+      return getSoqlQuery(soqlQueryClause, true);
     }
   }
 
@@ -201,8 +201,10 @@ public inherited sharing class DynamicSoql {
     if (soqlQueryClause.fieldFullNames == null) {
       soqlQueryClause.fieldFullNames = new List<String>();
     }
-    if (soqlQueryClause.countClause != null) {
-      soqlQueryClause.fieldFullNames.add(COUNT_STRING.replace('()', '(' + soqlQueryClause.countClause + ')'));
+    if (soqlQueryClause.countFieldFullNames != null) {
+      for (String countFieldFullName : soqlQueryClause.countFieldFullNames) {
+        soqlQueryClause.fieldFullNames.add(COUNT_STRING.replace('()', '(' + countFieldFullName + ')'));
+      }
     } else {
       soqlQueryClause.fieldFullNames.add(COUNT_STRING.replace('()', '(Id)'));
     }
@@ -216,9 +218,9 @@ public inherited sharing class DynamicSoql {
    * @return List of AggregateResult class.
    * @example
    */
-  public List<AggregateResult> countSObjectRecords(String groupClause) {
+  public List<AggregateResult> countSObjectRecords(List<String> countFieldFullNames) {
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
-    soqlQueryClause.groupClause = groupClause;
+    soqlQueryClause.countFieldFullNames = countFieldFullNames;
     return countSObjectRecords(soqlQueryClause);
   }
 

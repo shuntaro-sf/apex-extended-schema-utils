@@ -1,6 +1,6 @@
-# This package is in development, and we can't ensure the all function work correctly.
-
 # Usage
+
+The usage of Apex classes are listed below:
 
 <usage>
 
