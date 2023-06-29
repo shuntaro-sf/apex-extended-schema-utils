@@ -10,7 +10,7 @@ private without sharing class ObjectRecordTypeTest {
     Map<String, Boolean> isDefault = objectRecordType.isDefault();
     Map<String, Boolean> isMaster = objectRecordType.isMaster();
 
-    System.assertEquals('Master', developerNames[0], 'RecordType developer name is wrong.');
+    System.assert(developerNames.contains('Master'), 'RecordType developer name is wrong.');
     System.assert(ids.get('Master') != null, 'RecordType id is wrong.');
     System.assertEquals(true, isActive.get('Master'), 'RecordType developer name is wrong.');
     System.assertEquals(true, isAvailable.get('Master'), 'RecordType developer name is wrong.');

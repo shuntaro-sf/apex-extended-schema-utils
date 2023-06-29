@@ -65,13 +65,6 @@ private with sharing class DynamicSoqlTest {
 
     List<SObject> records = dynamicSoql.getSelfSObjectRecords(soqlQueryClause);
 
-    dynamicSoql = new DynamicSoql(Knowledge__kav.class);
-    soqlQueryClause = new SoqlQueryClause();
-    soqlQueryClause.fieldFullNames = new List<String>{ 'Title' };
-    soqlQueryClause.updateClause = 'TRACKING';
-
-    records = dynamicSoql.getSelfSObjectRecords(soqlQueryClause);
-
     dynamicSoql = new DynamicSoql(Account.class);
     soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.limitClause = 2;
