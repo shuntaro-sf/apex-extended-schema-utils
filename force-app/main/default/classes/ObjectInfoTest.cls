@@ -71,6 +71,13 @@ private without sharing class ObjectInfoTest {
   }
 
   @isTest
+  private static void testInstantiateRecordType() {
+    ObjectInfo objectInfo = new ObjectInfo(Account.class);
+    ObjectRecordType objectRecordType = objectInfo.instantiateRecordType();
+    System.assert(objectRecordType != null, 'Failed to instantiate ObjectRecordType.');
+  }
+
+  @isTest
   private static void testInstantiateRelation() {
     ObjectInfo objectInfo = new ObjectInfo(Account.class);
     ObjectRelation objectRelation = objectInfo.instantiateRelation();

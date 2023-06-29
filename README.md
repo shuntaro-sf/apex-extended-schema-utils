@@ -1,6 +1,24 @@
-# This package is in development, and we can't ensure the all function work correctly.
+# How to get started
+
+Run the following command to clone this repository
+
+```
+git clone https://github.com/shuntaro-sfdx/sfdx-apex-doc.git
+```
+
+Then, deploy apex util classes to your org.
+
+```
+sfdx force:source:deploy -p force-app/main/default/classes -u <your org alias>
+```
+
+or install the package via AppExchange clicking the url below:
+
+[https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2t0000008v9m](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t2t0000008v9m)
 
 # Usage
+
+The usage of Apex classes are listed below:
 
 <usage>
 

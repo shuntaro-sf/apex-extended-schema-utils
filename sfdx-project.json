@@ -5,8 +5,8 @@
       "default": true
     }
   ],
-  "name": "ExtendedSchemaUtils",
-  "namespace": "",
+  "name": "apex-extended-schema-utils",
+  "namespace": "shuntaro",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "57.0"
 }

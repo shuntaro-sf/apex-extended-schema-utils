@@ -19,11 +19,11 @@ private with sharing class DynamicSoqlTest {
     soqlQueryClause.orderClause = 'Name';
     soqlQueryClause.withClause = 'SECURITY_ENFORCED';
     soqlQueryClause.limitClause = 100;
-    soqlQUeryClause.offsetClause = 5;
-    soqlQUeryClause.isForView = true;
+    soqlQueryClause.offsetClause = 5;
+    soqlQueryClause.isForView = true;
 
     List<SObject> records = accountDynamicSoql.getSelfSObjectRecords(soqlQueryClause);
-    System.assertEquals(accounts.size() - soqlQUeryClause.offsetClause, records.size(), 'Failed to get records.');
+    System.assertEquals(accounts.size() - soqlQueryClause.offsetClause, records.size(), 'Failed to get records.');
   }
 
   @isTest
@@ -43,6 +43,35 @@ private with sharing class DynamicSoqlTest {
 
     List<SObject> records = accountDynamicSoql.getSelfSObjectRecords(fieldFullNames);
     System.assertEquals(accounts.size(), records.size(), 'Failed to get records.');
+  }
+
+  @isTest
+  private static void testGetSelfSObjectRecordsWithOtherClauses() {
+    List<Account> accounts = new List<Account>();
+    for (Integer index = 0; index < 10; index++) {
+      Account acc = new Account();
+      acc.Name = 'Name' + index;
+      acc.AccountSource = 'Web';
+      acc.Type = 'Prospect';
+      accounts.add(acc);
+    }
+    insert accounts;
+
+    DynamicSoql dynamicSoql = new DynamicSoql(Account.class);
+    SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+    soqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name' };
+    soqlQueryClause.limitClause = 1;
+    soqlQueryClause.isForReference = true;
+
+    List<SObject> records = dynamicSoql.getSelfSObjectRecords(soqlQueryClause);
+
+    dynamicSoql = new DynamicSoql(Account.class);
+    soqlQueryClause = new SoqlQueryClause();
+    soqlQueryClause.limitClause = 2;
+    soqlQueryClause.fieldFullNames = new List<String>{ 'Id' };
+    soqlQueryClause.isForUpdate = true;
+
+    records = dynamicSoql.getSelfSObjectRecords(soqlQueryClause);
   }
 
   @isTest
@@ -69,15 +98,15 @@ private with sharing class DynamicSoqlTest {
     soqlQueryClause.orderClause = 'Name';
     soqlQueryClause.withClause = 'SECURITY_ENFORCED';
     soqlQueryClause.limitClause = 100;
-    soqlQUeryClause.offsetClause = 5;
-    soqlQUeryClause.isForView = true;
+    soqlQueryClause.offsetClause = 5;
+    soqlQueryClause.isForView = true;
 
     SoqlQueryClause childSoqlQueryClause = new SoqlQueryClause();
     childSoqlQUeryClause.childRelationName = 'Contacts';
     childSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'LastName', 'AccountId' };
-    soqlQUeryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{ childSoqlQueryClause };
+    soqlQueryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{ childSoqlQueryClause };
 
-    List<SObject> records = accountDynamicSoql.getSObjectRecordsInChild(soqlQUeryClause);
+    List<SObject> records = accountDynamicSoql.getSObjectRecordsInChild(soqlQueryClause);
 
     for (Account record : (List<Account>) records) {
       for (Contact childRecord : record.Contacts) {
@@ -140,15 +169,15 @@ private with sharing class DynamicSoqlTest {
     soqlQueryClause.orderClause = 'Name';
     soqlQueryClause.withClause = 'SECURITY_ENFORCED';
     soqlQueryClause.limitClause = 100;
-    soqlQUeryClause.offsetClause = 0;
-    soqlQUeryClause.isForView = true;
+    soqlQueryClause.offsetClause = 0;
+    soqlQueryClause.isForView = true;
 
     SoqlQueryClause parentSoqlQueryClause = new SoqlQueryClause();
     parentSoqlQUeryClause.parentRelationName = 'Account';
     parentSoqlQueryClause.fieldFullNames = new List<String>{ 'Id', 'Name', 'AccountSource' };
-    soqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
+    soqlQueryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
 
-    List<SObject> records = contactDynamicSoql.getSObjectRecordsOfParent(soqlQUeryClause);
+    List<SObject> records = contactDynamicSoql.getSObjectRecordsOfParent(soqlQueryClause);
 
     for (Contact record : (List<Contact>) records) {
       System.assertEquals(acc.Id, record.Account.Id, 'Failed to get parent-records.');
@@ -217,8 +246,8 @@ private with sharing class DynamicSoqlTest {
     soqlQueryClause.orderClause = 'Name';
     soqlQueryClause.withClause = 'SECURITY_ENFORCED';
     soqlQueryClause.limitClause = 100;
-    soqlQUeryClause.offsetClause = 0;
-    soqlQUeryClause.isForView = true;
+    soqlQueryClause.offsetClause = 0;
+    soqlQueryClause.isForView = true;
 
     SoqlQueryClause firstChildSoqlQueryClause = new SoqlQueryClause();
     firstChildSoqlQUeryClause.childRelationName = 'Contacts';
@@ -233,12 +262,12 @@ private with sharing class DynamicSoqlTest {
     parentSoqlQUeryClause.childRelationName = 'Account';
     firstChildSoqlQUeryClause.parentSoqlQueryClauses = new List<SoqlQueryClause>{ parentSoqlQueryClause };
 
-    soqlQUeryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{
+    soqlQueryClause.childSoqlQueryClauses = new List<SoqlQueryClause>{
       firstChildSoqlQueryClause,
       secondChildSoqlQueryClause
     };
 
-    List<SObject> records = accountDynamicSoql.getSObjectRecords(soqlQUeryClause);
+    List<SObject> records = accountDynamicSoql.getSObjectRecords(soqlQueryClause);
 
     for (Account record : (List<Account>) records) {
       System.assertEquals(acc.Id, record.Id, 'Failed to get parent-records.');
@@ -261,7 +290,7 @@ private with sharing class DynamicSoqlTest {
     SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
     soqlQueryClause.fieldFullNames = new List<String>{ 'AccountSource' };
     soqlQueryClause.whereClause = 'Id != null';
-    soqlQueryClause.countClause = 'Id';
+    soqlQueryClause.countFieldFullNames = new List<String>{ 'Id' };
     soqlQueryClause.groupClause = 'AccountSource';
 
     List<AggregateResult> numberOfRecords = accountDynamicSoql.countSObjectRecords(soqlQueryClause);
@@ -283,11 +312,30 @@ private with sharing class DynamicSoqlTest {
     insert accounts;
 
     DynamicSoql accountDynamicSoql = new DynamicSoql(Account.class);
-    String groupClause = 'AccountSource';
+    List<String> countFieldFullNames = new List<String>{ 'Id', 'Name', 'Type' };
 
-    List<AggregateResult> numberOfRecords = accountDynamicSoql.countSObjectRecords(groupClause);
+    List<AggregateResult> numberOfRecords = accountDynamicSoql.countSObjectRecords(countFieldFullNames);
     for (AggregateResult aggregateResult : numberOfRecords) {
       System.assertEquals(aggregateResult.get('expr0'), accounts.size(), 'Failed to count the number of records.');
     }
+  }
+
+  private static void testExceptionOfSelfDml() {
+    List<Account> accounts = new List<Account>();
+    for (Integer index = 0; index < 10; index++) {
+      Account acc = new Account();
+      acc.Name = 'Name' + index;
+      acc.AccountSource = 'Web';
+      acc.Type = 'Prospect';
+      accounts.add(acc);
+    }
+    insert accounts;
+
+    DynamicSoql accountDynamicSoql = new DynamicSoql(Account.class);
+    SoqlQueryClause soqlQueryClause = new SoqlQueryClause();
+    soqlQueryClause.fieldFullNames = new List<String>();
+
+    List<SObject> records = accountDynamicSoql.getSelfSObjectRecords(soqlQueryClause);
+    System.assertEquals(accounts.size() - soqlQueryClause.offsetClause, records.size(), 'Failed to get records.');
   }
 }

@@ -3,10 +3,12 @@ private without sharing class ObjectPermissionTest {
   @isTest
   private static void testGetObjectPermission() {
     ObjectPermission objectPermission = new ObjectPermission(Account.class);
+    Boolean isAccessible = objectPermission.isAccessible();
     Boolean isCreateable = objectPermission.isCreateable();
     Boolean isUpdateable = objectPermission.isUpdateable();
     Boolean isUpsertable = objectPermission.isUpsertable();
     Boolean isDeletable = objectPermission.isDeletable();
+    System.assert(isAccessible, 'Permission to access is wrong.');
     System.assert(isCreateable, 'Permission to create is wrong.');
     System.assert(isUpdateable, 'Permission to update is wrong.');
     System.assert(isUpsertable, 'Permission to upasert is wrong.');

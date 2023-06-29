@@ -11,7 +11,7 @@ public with sharing class SoqlQueryClause {
   public Boolean isForReference;
   public String updateClause;
   public Boolean isForUpdate;
-  public String countClause;
+  public List<String> countFieldFullNames;
 
   public String parentRelationName;
   public List<SoqlQueryClause> parentSoqlQUeryClauses;

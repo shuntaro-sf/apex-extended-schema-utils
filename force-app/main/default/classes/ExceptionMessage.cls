@@ -8,7 +8,8 @@ public with sharing class ExceptionMessage {
     'DynamicSoqlEmptyChildFieldFullNames' => 'Parameter soqlQueryClause.childSoqlQueryClause.fieldFullNames must not be null and of size greater than 0.',
     'ObjectInfoNotFoundSObject' => 'Field sObjectType must be SObject type.',
     'ObjectPermissionNotFoundSObject' => 'Field sObjectType must be SObject type.',
-    'objectRelationNotFoundSObject' => 'Field sObjectType must be SObject type.'
+    'ObjectRelationNotFoundSObject' => 'Field sObjectType must be SObject type.',
+    'ObjectRecordTypeNotFoundSObject' => 'Field sObjectType must be SObject type.'
   };
 
   public class CustomException extends Exception {
