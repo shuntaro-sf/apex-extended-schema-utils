@@ -1,4 +1,4 @@
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/README.md) &frasl; [ObjectInfo](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectInfo.md) &frasl; Field
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/README.md) &frasl; [ObjectInfo](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/ObjectInfo.md) &frasl; Field
 
 ### Field
 

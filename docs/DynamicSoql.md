@@ -1,4 +1,4 @@
-[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/README.md) &frasl; DynamicSoql
+[README](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/README.md) &frasl; DynamicSoql
 
 ## DynamicSoql
 
@@ -219,15 +219,15 @@ Counts the number of records of sObjectType
 ```apex
 SIGNATURE
 
-  public List<AggregateResult> countSObjectRecords(String groupClause)
+  public List<AggregateResult> countSObjectRecords(List<String> countFieldFullNames)
 
 PARAMETERS
 
-  groupClause
+  countFieldFullNames
 
     Description: groupClause Group clause for SOQL query.
 
-    Type: String
+    Type: List<String>
 
 RETURN VALUE
 

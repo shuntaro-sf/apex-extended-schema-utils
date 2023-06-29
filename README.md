@@ -18,19 +18,19 @@ or install the package via AppExchange clicking the url below:
 
 # Usage
 
-The usage of Apex classes are listed below:
+The usages of Apex classes are listed below:
 
 <usage>
 
-- [DynamicSoql](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/DynamicSoql.md)
-- [ExceptionMessage](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ExceptionMessage.md)
-- [ObjectInfo](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectInfo.md)
-  - [Field](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectInfo.Field.md)
-- [ObjectPermission](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectPermission.md)
-  - [Field](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectPermission.Field.md)
-- [ObjectRecordType](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectRecordType.md)
-- [ObjectRelation](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/ObjectRelation.md)
-- [SoqlQueryClause](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.1/docs/SoqlQueryClause.md)
+- [DynamicSoql](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/DynamicSoql.md)
+- [ExceptionMessage](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/ExceptionMessage.md)
+- [ObjectInfo](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/ObjectInfo.md)
+  - [Field](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/ObjectInfo.Field.md)
+- [ObjectPermission](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/ObjectPermission.md)
+  - [Field](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/ObjectPermission.Field.md)
+- [ObjectRecordType](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/ObjectRecordType.md)
+- [ObjectRelation](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/ObjectRelation.md)
+- [SoqlQueryClause](https://github.com/shuntaro-sfdx/apex-extended-schema-utils/blob/v1.0.2/docs/SoqlQueryClause.md)
 
 </usage>
 
